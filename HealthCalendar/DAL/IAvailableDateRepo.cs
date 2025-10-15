@@ -8,4 +8,5 @@ public interface IAvailableDateRepo
     Task<(DateOnly?, RepoStatus)> GetDateAvailability(int id, DateOnly date);
     Task<(List<DateOnly>?, RepoStatus)> GetWeekAvailability(int id, DateOnly date);
     Task<(List<DateOnly>?, RepoStatus)> GetMonthAvailability(int id, DateOnly date);
+    Task<RepoStatus> AddDate(AvailableDate availableDate);
 }

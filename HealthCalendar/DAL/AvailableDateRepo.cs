@@ -36,8 +36,8 @@ public class AvailableDateRepo : IAvailableDateRepo
         }
         catch (Exception e)
         {
-            _logger.LogError($"[AvailableDateRepo] GetAvailableDates() failed" +
-            " when ToListAsync() was called: {e}", e.Message);
+            _logger.LogError("[AvailableDateRepo] GetAvailableDates() failed " +
+                            $"when ToListAsync() was called, error message: {e.Message}");
             return (null, RepoStatus.Error);
         }
     }
@@ -52,8 +52,8 @@ public class AvailableDateRepo : IAvailableDateRepo
         }
         catch (Exception e)
         {
-            _logger.LogError($"[AvailableDateRepo] GetDateAvailability() failed " +
-            "when FindAsync() was called: {e}", e.Message);
+            _logger.LogError("[AvailableDateRepo] GetDateAvailability() failed " +
+                            $"when FindAsync() was called, error message: {e.Message}");
             return (null, RepoStatus.Error);
         }
     }
@@ -87,12 +87,12 @@ public class AvailableDateRepo : IAvailableDateRepo
         }
         catch (Exception e)
         {
-            _logger.LogError($"[AvailableDateRepo] GetWeekAvailability() failed" +
-            " when ToListAsync() was called: {e}", e.Message);
+            _logger.LogError("[AvailableDateRepo] GetWeekAvailability() failed " +
+                            $"when ToListAsync() was called, error message: {e.Message}");
             return (null, RepoStatus.Error);
         }
     }
-    
+
     public async Task<(List<DateOnly>?, RepoStatus)> GetMonthAvailability(int id, DateOnly date)
     {
         try
@@ -115,9 +115,25 @@ public class AvailableDateRepo : IAvailableDateRepo
         }
         catch (Exception e)
         {
-            _logger.LogError($"[AvailableDateRepo] GetMonthAvailability() failed" +
-            " when ToListAsync() was called: {e}", e.Message);
+            _logger.LogError("[AvailableDateRepo] GetMonthAvailability() failed " +
+                            $"when ToListAsync() was called, error message: {e.Message}");
             return (null, RepoStatus.Error);
+        }
+    }
+    
+    public async Task<RepoStatus> AddDate(AvailableDate availableDate)
+    {
+        try
+        {
+            _database.AvailableDates.Add(availableDate);
+            await _database.SaveChangesAsync();
+            return RepoStatus.Success;
+        }
+        catch (Exception e)
+        {
+            _logger.LogError("[AvailableDateRepo] AddDate() failed to create new " + 
+                            $"availableDate {@availableDate} when Add() was called: {e.Message}");
+            return RepoStatus.Error;
         }
     }
 }
