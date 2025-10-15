@@ -6,6 +6,6 @@ public static class DatabaseInit
 {
     public static void Seed(IApplicationBuilder app)
     {
-        
+
     }
 }

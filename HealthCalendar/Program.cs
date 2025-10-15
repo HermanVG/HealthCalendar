@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using HealthCalendar.DAL;
 using Serilog;
 using Serilog.Events;
-// using Microsoft.AspNetCore.Identity;
+//using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 // var ConnectionString = builder.Configuration.GetConnectionString("DatabaseContextConnection") ?? throw new InvalidOperationException("Connection string 'DatabaseContextConnection' not found.");
@@ -16,7 +16,7 @@ builder.Services.AddDbContext<DatabaseContext>(options =>
 
 // builder.Services.AddDefaultIdentity<IdentityUser>().AddEntityFrameworkStores<DatabaseContext>();
 
-// Add repositories here
+builder.Services.AddScoped<IAvailableDateRepo, AvailableDateRepo>();
 
 // builder.Services.AddRazorPages();
 // builder.Services.AddSession();

@@ -4,15 +4,15 @@ namespace HealthCalendar.Models
     public class Event
     {
         // primary key
-        public int eventId { get; set; }
+        public int EventId { get; set; }
         // foreign key
-        public int patientId { get; set; }
-        public String? description { get; set; }
-        public String location { get; set; } = String.Empty;
-        public DateOnly date { get; set; }
-        public TimeOnly start { get; set; }
-        public TimeOnly end { get; set; }
+        public int PatientId { get; set; }
+        public String? Description { get; set; }
+        public String Location { get; set; } = String.Empty;
+        public DateOnly Date { get; set; }
+        public TimeOnly Start { get; set; }
+        public TimeOnly End { get; set; }
         // navigation property
-        public virtual Patient patient { get; set; } = default!;
+        public virtual Patient Patient { get; set; } = default!;
     }
 }

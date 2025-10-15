@@ -4,10 +4,10 @@ namespace HealthCalendar.Models
     public class AvailableDate
     {
         // primary and foreign key
-        public int personellId { get; set; }
+        public int PersonellId { get; set; }
         // primary key
-        public DateOnly date { get; set; }
+        public DateOnly Date { get; set; }
         // navigation property
-        public virtual Personell personell { get; set; } = default!;
+        public virtual Personell Personell { get; set; } = default!;
     }
 }

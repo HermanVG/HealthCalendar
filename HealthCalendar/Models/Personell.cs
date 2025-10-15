@@ -4,13 +4,13 @@ namespace HealthCalendar.Models
     public class Personell
     {
         // primary key
-        public int personellId { get; set; }
-        public String firstname { get; set; } = String.Empty;
-        public String lastname { get; set; } = String.Empty;
+        public int PersonellId { get; set; }
+        public String Firstname { get; set; } = String.Empty;
+        public String Lastname { get; set; } = String.Empty;
 
-        public String email { get; set; } = String.Empty;
-        public String password { get; set; } = String.Empty;
-        public int? phone { get; set; }
+        public String Email { get; set; } = String.Empty;
+        public String Password { get; set; } = String.Empty;
+        public int? Phone { get; set; }
         // navigation property
         public virtual List<AvailableDate>? AvailableDates { get; set; }
         // navigation property
