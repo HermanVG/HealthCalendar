@@ -132,7 +132,7 @@ public class AvailableDateRepo : IAvailableDateRepo
         catch (Exception e)
         {
             _logger.LogError("[AvailableDateRepo] AddDate() failed to create new " + 
-                            $"availableDate {@availableDate} when Add() was called: {e.Message}");
+                            $"availableDate {@availableDate}, this is the error message: {e.Message}");
             return RepoStatus.Error;
         }
     }

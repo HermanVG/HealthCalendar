@@ -18,6 +18,8 @@ builder.Services.AddDbContext<DatabaseContext>(options =>
 
 builder.Services.AddScoped<IAvailableDateRepo, AvailableDateRepo>();
 builder.Services.AddScoped<IPersonellRepo, PersonellRepo>();
+builder.Services.AddScoped<IPatientRepo, PatientRepo>();
+builder.Services.AddScoped<IEventRepo, EventRepo>();
 
 // builder.Services.AddRazorPages();
 // builder.Services.AddSession();
