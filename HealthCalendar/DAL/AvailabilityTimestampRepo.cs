@@ -16,23 +16,14 @@ public class AvailabilityTimestampRepo : IAvailabilityTimestampRepo
         _logger = logger;
     }
 
-    public async Task<(List<DateOnly>, RepoStatus)> GetAvailability(int providerId)
+    public async Task<(List<AvailabilityTimestamp>, RepoStatus)> GetAvailability(int providerId)
     {
         try
         {
             List<AvailabilityTimestamp> availability = await _database.Availability
                 .Where(av => av.ProviderId == providerId)
                 .ToListAsync();
-            if (!availability.Any()) return ([], RepoStatus.Success);
-
-            List<DateOnly> dateList = new List<DateOnly>();
-            foreach (AvailabilityTimestamp availabilityTimestamp in availability)
-            {
-                dateList.Add(availabilityTimestamp.Date);
-            }
-            dateList.Sort();
-
-            return (dateList, RepoStatus.Success);
+            return (availability, RepoStatus.Success);
         }
         catch (Exception e)
         {
@@ -60,7 +51,7 @@ public class AvailabilityTimestampRepo : IAvailabilityTimestampRepo
     }
     */
 
-    public async Task<(List<DateOnly>, RepoStatus)> GetWeekAvailability(int providerId, DateOnly date)
+    public async Task<(List<AvailabilityTimestamp>, RepoStatus)> GetWeekAvailability(int providerId, DateOnly date)
     {
         try
         {
@@ -78,14 +69,13 @@ public class AvailabilityTimestampRepo : IAvailabilityTimestampRepo
                 week.Add(monday.AddDays(i));
             }
 
-            List<DateOnly> dateList = new List<DateOnly>();
+            List<AvailabilityTimestamp> weekAvailability = new List<AvailabilityTimestamp>();
             foreach (AvailabilityTimestamp availabilityTimestamp in availability)
             {
-                if (week.Contains(availabilityTimestamp.Date)) dateList.Add(availabilityTimestamp.Date);
+                if (week.Contains(availabilityTimestamp.Date)) weekAvailability.Add(availabilityTimestamp);
             }
-            dateList.Sort();
 
-            return (dateList, RepoStatus.Success);
+            return (weekAvailability, RepoStatus.Success);
         }
         catch (Exception e)
         {
@@ -95,7 +85,7 @@ public class AvailabilityTimestampRepo : IAvailabilityTimestampRepo
         }
     }
 
-    public async Task<(List<DateOnly>, RepoStatus)> GetMonthAvailability(int providerId, DateOnly date)
+    public async Task<(List<AvailabilityTimestamp>, RepoStatus)> GetMonthAvailability(int providerId, DateOnly date)
     {
         try
         {
@@ -106,14 +96,13 @@ public class AvailabilityTimestampRepo : IAvailabilityTimestampRepo
 
             int month = date.Month;
 
-            List<DateOnly> dateList = new List<DateOnly>();
+            List<AvailabilityTimestamp> monthAvailability = new List<AvailabilityTimestamp>();
             foreach (AvailabilityTimestamp availabilityTimestamp in availability)
             {
-                if (month == availabilityTimestamp.Date.Month) dateList.Add(availabilityTimestamp.Date);
+                if (month == availabilityTimestamp.Date.Month) monthAvailability.Add(availabilityTimestamp);
             }
-            dateList.Sort();
 
-            return (dateList, RepoStatus.Success);
+            return (monthAvailability, RepoStatus.Success);
         }
         catch (Exception e)
         {
