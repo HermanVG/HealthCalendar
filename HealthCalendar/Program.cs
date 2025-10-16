@@ -17,6 +17,7 @@ builder.Services.AddDbContext<DatabaseContext>(options =>
 // builder.Services.AddDefaultIdentity<IdentityUser>().AddEntityFrameworkStores<DatabaseContext>();
 
 builder.Services.AddScoped<IAvailableDateRepo, AvailableDateRepo>();
+builder.Services.AddScoped<IPersonellRepo, PersonellRepo>();
 
 // builder.Services.AddRazorPages();
 // builder.Services.AddSession();

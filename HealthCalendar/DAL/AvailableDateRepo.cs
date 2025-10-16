@@ -16,12 +16,12 @@ public class AvailableDateRepo : IAvailableDateRepo
         _logger = logger;
     }
 
-    public async Task<(List<DateOnly>?, RepoStatus)> GetAvailableDates(int id, DateOnly date)
+    public async Task<(List<DateOnly>, RepoStatus)> GetAvailableDates(int personellId, DateOnly date)
     {
         try
         {
             List<AvailableDate> availableDates = await _database.AvailableDates
-                .Where(aD => aD.PersonellId == id)
+                .Where(aD => aD.PersonellId == personellId)
                 .ToListAsync();
             if (!availableDates.Any()) return ([], RepoStatus.Success);
 
@@ -38,15 +38,15 @@ public class AvailableDateRepo : IAvailableDateRepo
         {
             _logger.LogError("[AvailableDateRepo] GetAvailableDates() failed " +
                             $"when ToListAsync() was called, error message: {e.Message}");
-            return (null, RepoStatus.Error);
+            return ([], RepoStatus.Error);
         }
     }
 
-    public async Task<(DateOnly?, RepoStatus)> GetDateAvailability(int id, DateOnly date)
+    public async Task<(DateOnly?, RepoStatus)> GetDateAvailability(int personellId, DateOnly date)
     {
         try
         {
-            AvailableDate? availableDate = await _database.AvailableDates.FindAsync(id);
+            AvailableDate? availableDate = await _database.AvailableDates.FindAsync(personellId);
             if (availableDate == null) return (null, RepoStatus.Success);
             return (availableDate.Date, RepoStatus.Success);
         }
@@ -58,12 +58,12 @@ public class AvailableDateRepo : IAvailableDateRepo
         }
     }
 
-    public async Task<(List<DateOnly>?, RepoStatus)> GetWeekAvailability(int id, DateOnly date)
+    public async Task<(List<DateOnly>, RepoStatus)> GetWeekAvailability(int personellId, DateOnly date)
     {
         try
         {
             List<AvailableDate> availableDates = await _database.AvailableDates
-                .Where(aD => aD.PersonellId == id)
+                .Where(aD => aD.PersonellId == personellId)
                 .ToListAsync();
             if (!availableDates.Any()) return ([], RepoStatus.Success);
 
@@ -89,16 +89,16 @@ public class AvailableDateRepo : IAvailableDateRepo
         {
             _logger.LogError("[AvailableDateRepo] GetWeekAvailability() failed " +
                             $"when ToListAsync() was called, error message: {e.Message}");
-            return (null, RepoStatus.Error);
+            return ([], RepoStatus.Error);
         }
     }
 
-    public async Task<(List<DateOnly>?, RepoStatus)> GetMonthAvailability(int id, DateOnly date)
+    public async Task<(List<DateOnly>, RepoStatus)> GetMonthAvailability(int personellId, DateOnly date)
     {
         try
         {
             List<AvailableDate> availableDates = await _database.AvailableDates
-                .Where(aD => aD.PersonellId == id)
+                .Where(aD => aD.PersonellId == personellId)
                 .ToListAsync();
             if (!availableDates.Any()) return ([], RepoStatus.Success);
 
@@ -117,7 +117,7 @@ public class AvailableDateRepo : IAvailableDateRepo
         {
             _logger.LogError("[AvailableDateRepo] GetMonthAvailability() failed " +
                             $"when ToListAsync() was called, error message: {e.Message}");
-            return (null, RepoStatus.Error);
+            return ([], RepoStatus.Error);
         }
     }
     
