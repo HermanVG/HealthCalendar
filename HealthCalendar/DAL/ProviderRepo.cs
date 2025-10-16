@@ -14,24 +14,25 @@ public class ProviderRepo : IProviderRepo
         _logger = logger;
     }
 
-    public async Task<(List<Patient>?, RepoStatus)> GetAssignedPatients(int providerId)
+    public async Task<(Provider?, RepoStatus)> GetProvider(int providerId)
     {
         try
         {
             Provider? provider = await _database.Providers.FindAsync(providerId);
             if (provider == null)
             {
-                _logger.LogWarning("[ProviderRepo] GetAssignedPatients() Personell " +
-                                  $"with providerId = {providerId} was not found.");
-                return ([], RepoStatus.NotFound);
+                _logger.LogWarning("[ProviderRepo] GetProvider() Provider with  " +
+                                  $"ProviderId = {providerId} was not found.");
+                return (null, RepoStatus.NotFound);
             }
-            return (provider.Patients, RepoStatus.Success);
+            return (provider, RepoStatus.Success);
+
         }
         catch (Exception e)
         {
-            _logger.LogError("[ProviderRepo] GetAssignedPatients() failed " +
+            _logger.LogError("[ProviderRepo] GetProvider() failed " +
                             $"when FindAsync() was called, error message: {e.Message}");
-            return ([], RepoStatus.Error);
+            return (null, RepoStatus.Error);
         }
     }
 }

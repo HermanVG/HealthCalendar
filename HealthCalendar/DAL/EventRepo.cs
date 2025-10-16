@@ -30,6 +30,7 @@ public class EventRepo : IEventRepo
             return ([], RepoStatus.Error);
         }
     }
+
     public async Task<RepoStatus> AddEvent(Event eventt)
     {
         try
@@ -40,7 +41,7 @@ public class EventRepo : IEventRepo
         }
         catch (Exception e)
         {
-            _logger.LogError("[EventRepo] GetAssignedPatients() failed to create new " + 
+            _logger.LogError("[EventRepo] GetAssignedPatients() failed to create new " +
                             $"availableDate {@eventt}, this is the error message: {e.Message}");
             return RepoStatus.Error;
         }

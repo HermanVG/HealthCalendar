@@ -1,5 +1,6 @@
 using System;
 using HealthCalendar.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace HealthCalendar.DAL;
 
@@ -13,24 +14,26 @@ public class PatientRepo : IPatientRepo
         _logger = logger;
     }
 
-    public async Task<(Provider?, RepoStatus)> GetAssignedProvider(int patientId)
+    public async Task<(List<Patient>?, RepoStatus)> GetAssignedPatients(int providerId)
     {
         try
         {
-            Patient? patient = await _database.Patients.FindAsync(patientId);
-            if (patient == null)
+            List<Patient>? patients = await _database.Patients
+                .Where(pa => pa.ProviderId == providerId)
+                .ToListAsync();
+            if (!patients.Any())
             {
-                _logger.LogWarning("[PatientRepo] GetAssignedPatients() Patient " +
-                                  $"with patientId = {patientId} was not found.");
-                return (null, RepoStatus.NotFound);
+                _logger.LogWarning("[PatientRepo] GetAssignedPatients() Patients related to Provider " +
+                                  $"with ProviderId = {providerId} was not found.");
+                return ([], RepoStatus.NotFound);
             }
-            return (patient.Provider, RepoStatus.Success);
+            return (patients, RepoStatus.Success);
         }
         catch (Exception e)
         {
             _logger.LogError("[PatientRepo] GetAssignedPatients() failed " +
                             $"when FindAsync() was called, error message: {e.Message}");
-            return (null, RepoStatus.Error);
+            return ([], RepoStatus.Error);
         }
     }
 }
