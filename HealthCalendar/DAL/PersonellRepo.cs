@@ -5,10 +5,10 @@ namespace HealthCalendar.DAL;
 
 public class PersonellRepo : IPersonellRepo
 {
-        private readonly DatabaseContext _database;
-    private readonly ILogger<AvailableDateRepo> _logger;
+    private readonly DatabaseContext _database;
+    private readonly ILogger<PersonellRepo> _logger;
 
-    public PersonellRepo(DatabaseContext database, ILogger<AvailableDateRepo> logger)
+    public PersonellRepo(DatabaseContext database, ILogger<PersonellRepo> logger)
     {
         _database = database;
         _logger = logger;
@@ -19,7 +19,12 @@ public class PersonellRepo : IPersonellRepo
         try
         {
             Personell? personell = await _database.Personell.FindAsync(personellId);
-            if (personell == null) return ([], RepoStatus.Success);
+            if (personell == null)
+            {
+                _logger.LogWarning("[PatientRepo] GetAssignedPatients() Personell " +
+                                  $"with personellId = {personellId} was not found.");
+                return ([], RepoStatus.NotFound);
+            }
             return (personell.Patients, RepoStatus.Success);
         }
         catch (Exception e)
