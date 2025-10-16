@@ -12,6 +12,7 @@ namespace HealthCalendar.Models
         public DateOnly Date { get; set; }
         public TimeOnly Start { get; set; }
         public TimeOnly End { get; set; }
+        public DateTime CreationTimestamp { get; set; }
         // navigation property
         public virtual Patient Patient { get; set; } = default!;
     }

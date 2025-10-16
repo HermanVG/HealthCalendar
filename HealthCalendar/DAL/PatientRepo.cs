@@ -13,7 +13,7 @@ public class PatientRepo : IPatientRepo
         _logger = logger;
     }
 
-    public async Task<(Personell?, RepoStatus)> GetAssignedPersonell(int patientId)
+    public async Task<(Provider?, RepoStatus)> GetAssignedProvider(int patientId)
     {
         try
         {
@@ -21,10 +21,10 @@ public class PatientRepo : IPatientRepo
             if (patient == null)
             {
                 _logger.LogWarning("[PatientRepo] GetAssignedPatients() Patient " +
-                                  $"with personellId = {patientId} was not found.");
+                                  $"with patientId = {patientId} was not found.");
                 return (null, RepoStatus.NotFound);
             }
-            return (patient.Personell, RepoStatus.Success);
+            return (patient.Provider, RepoStatus.Success);
         }
         catch (Exception e)
         {

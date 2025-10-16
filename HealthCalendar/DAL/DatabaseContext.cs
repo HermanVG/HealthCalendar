@@ -14,8 +14,8 @@ public class DatabaseContext : IdentityDbContext
 
     public DbSet<Event> Events { get; set; }
     public DbSet<Patient> Patients { get; set; }
-    public DbSet<Personell> Personell { get; set; }
-    public DbSet<AvailableDate> AvailableDates { get; set; }
+    public DbSet<Provider> Providers { get; set; }
+    public DbSet<AvailabilityTimestamp> Availability { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

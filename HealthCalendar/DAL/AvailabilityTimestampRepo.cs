@@ -5,30 +5,30 @@ using Microsoft.EntityFrameworkCore.Migrations.Operations;
 
 namespace HealthCalendar.DAL;
 
-public class AvailableDateRepo : IAvailableDateRepo
+public class AvailabilityTimestampRepo : IAvailabilityTimestampRepo
 {
     private readonly DatabaseContext _database;
-    private readonly ILogger<AvailableDateRepo> _logger;
+    private readonly ILogger<AvailabilityTimestampRepo> _logger;
 
-    public AvailableDateRepo(DatabaseContext database, ILogger<AvailableDateRepo> logger)
+    public AvailabilityTimestampRepo(DatabaseContext database, ILogger<AvailabilityTimestampRepo> logger)
     {
         _database = database;
         _logger = logger;
     }
 
-    public async Task<(List<DateOnly>, RepoStatus)> GetAvailableDates(int personellId, DateOnly date)
+    public async Task<(List<DateOnly>, RepoStatus)> GetAvailability(int providerId)
     {
         try
         {
-            List<AvailableDate> availableDates = await _database.AvailableDates
-                .Where(aD => aD.PersonellId == personellId)
+            List<AvailabilityTimestamp> availability = await _database.Availability
+                .Where(av => av.ProviderId == providerId)
                 .ToListAsync();
-            if (!availableDates.Any()) return ([], RepoStatus.Success);
+            if (!availability.Any()) return ([], RepoStatus.Success);
 
             List<DateOnly> dateList = new List<DateOnly>();
-            foreach (AvailableDate availableDate in availableDates)
+            foreach (AvailabilityTimestamp availabilityTimestamp in availability)
             {
-                dateList.Add(availableDate.Date);
+                dateList.Add(availabilityTimestamp.Date);
             }
             dateList.Sort();
 
@@ -36,12 +36,13 @@ public class AvailableDateRepo : IAvailableDateRepo
         }
         catch (Exception e)
         {
-            _logger.LogError("[AvailableDateRepo] GetAvailableDates() failed " +
+            _logger.LogError("[AvailabilityTimestampRepo] GetAvailability() failed " +
                             $"when ToListAsync() was called, error message: {e.Message}");
             return ([], RepoStatus.Error);
         }
     }
 
+    /*
     public async Task<(DateOnly?, RepoStatus)> GetDateAvailability(int personellId, DateOnly date)
     {
         try
@@ -57,15 +58,16 @@ public class AvailableDateRepo : IAvailableDateRepo
             return (null, RepoStatus.Error);
         }
     }
+    */
 
-    public async Task<(List<DateOnly>, RepoStatus)> GetWeekAvailability(int personellId, DateOnly date)
+    public async Task<(List<DateOnly>, RepoStatus)> GetWeekAvailability(int providerId, DateOnly date)
     {
         try
         {
-            List<AvailableDate> availableDates = await _database.AvailableDates
-                .Where(aD => aD.PersonellId == personellId)
+            List<AvailabilityTimestamp> availability = await _database.Availability
+                .Where(av => av.ProviderId == providerId)
                 .ToListAsync();
-            if (!availableDates.Any()) return ([], RepoStatus.Success);
+            if (!availability.Any()) return ([], RepoStatus.Success);
 
             int diffFromMonday = ((int)date.DayOfWeek + 6) % 7;
             DateOnly monday = date.AddDays(-diffFromMonday);
@@ -77,9 +79,9 @@ public class AvailableDateRepo : IAvailableDateRepo
             }
 
             List<DateOnly> dateList = new List<DateOnly>();
-            foreach (AvailableDate availableDate in availableDates)
+            foreach (AvailabilityTimestamp availabilityTimestamp in availability)
             {
-                if (week.Contains(availableDate.Date)) dateList.Add(availableDate.Date);
+                if (week.Contains(availabilityTimestamp.Date)) dateList.Add(availabilityTimestamp.Date);
             }
             dateList.Sort();
 
@@ -87,27 +89,27 @@ public class AvailableDateRepo : IAvailableDateRepo
         }
         catch (Exception e)
         {
-            _logger.LogError("[AvailableDateRepo] GetWeekAvailability() failed " +
+            _logger.LogError("[AvailabilityTimestampRepo] GetWeekAvailability() failed " +
                             $"when ToListAsync() was called, error message: {e.Message}");
             return ([], RepoStatus.Error);
         }
     }
 
-    public async Task<(List<DateOnly>, RepoStatus)> GetMonthAvailability(int personellId, DateOnly date)
+    public async Task<(List<DateOnly>, RepoStatus)> GetMonthAvailability(int providerId, DateOnly date)
     {
         try
         {
-            List<AvailableDate> availableDates = await _database.AvailableDates
-                .Where(aD => aD.PersonellId == personellId)
+            List<AvailabilityTimestamp> availability = await _database.Availability
+                .Where(av => av.ProviderId == providerId)
                 .ToListAsync();
-            if (!availableDates.Any()) return ([], RepoStatus.Success);
+            if (!availability.Any()) return ([], RepoStatus.Success);
 
             int month = date.Month;
 
             List<DateOnly> dateList = new List<DateOnly>();
-            foreach (AvailableDate availableDate in availableDates)
+            foreach (AvailabilityTimestamp availabilityTimestamp in availability)
             {
-                if (month == availableDate.Date.Month) dateList.Add(availableDate.Date);
+                if (month == availabilityTimestamp.Date.Month) dateList.Add(availabilityTimestamp.Date);
             }
             dateList.Sort();
 
@@ -115,24 +117,24 @@ public class AvailableDateRepo : IAvailableDateRepo
         }
         catch (Exception e)
         {
-            _logger.LogError("[AvailableDateRepo] GetMonthAvailability() failed " +
+            _logger.LogError("[AvailabilityTimestampRepo] GetMonthAvailability() failed " +
                             $"when ToListAsync() was called, error message: {e.Message}");
             return ([], RepoStatus.Error);
         }
     }
     
-    public async Task<RepoStatus> AddDate(AvailableDate availableDate)
+    public async Task<RepoStatus> AddAvailabilityTimestamp(AvailabilityTimestamp availabilityTimestamp)
     {
         try
         {
-            _database.AvailableDates.Add(availableDate);
+            _database.Availability.Add(availabilityTimestamp);
             await _database.SaveChangesAsync();
             return RepoStatus.Success;
         }
         catch (Exception e)
         {
             _logger.LogError("[AvailableDateRepo] AddDate() failed to create new " + 
-                            $"availableDate {@availableDate}, this is the error message: {e.Message}");
+                            $"availableDate {@availabilityTimestamp}, this is the error message: {e.Message}");
             return RepoStatus.Error;
         }
     }

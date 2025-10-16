@@ -16,8 +16,8 @@ builder.Services.AddDbContext<DatabaseContext>(options =>
 
 // builder.Services.AddDefaultIdentity<IdentityUser>().AddEntityFrameworkStores<DatabaseContext>();
 
-builder.Services.AddScoped<IAvailableDateRepo, AvailableDateRepo>();
-builder.Services.AddScoped<IPersonellRepo, PersonellRepo>();
+builder.Services.AddScoped<IAvailabilityTimestampRepo, AvailabilityTimestampRepo>();
+builder.Services.AddScoped<IProviderRepo, ProviderRepo>();
 builder.Services.AddScoped<IPatientRepo, PatientRepo>();
 builder.Services.AddScoped<IEventRepo, EventRepo>();
 
