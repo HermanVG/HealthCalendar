@@ -31,6 +31,23 @@ public class EventRepo : IEventRepo
         }
     }
 
+    public async Task<(List<Event>?, RepoStatus)> GetNewEvents(int patientId, DateTime lastLogin)
+    {
+        try
+        {
+            List<Event> newEvents = await _database.Events
+                .Where(ev => ev.PatientId == patientId && lastLogin.CompareTo(ev.CreationTimestamp) <= 0)
+                .ToListAsync();
+            return (newEvents, RepoStatus.Success);
+        }
+        catch (Exception e)
+        {
+            _logger.LogError("[EventRepo] getNewEvents() failed " +
+                            $"when ToListAsync() was called, error message: {e.Message}");
+            return ([], RepoStatus.Error);
+        }
+    }
+
     public async Task<RepoStatus> AddEvent(Event eventt)
     {
         try
