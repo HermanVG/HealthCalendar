@@ -27,13 +27,43 @@ public class PatientRepo : IPatientRepo
                                   $"with ProviderId = {providerId} was not found.");
                 return ([], RepoStatus.NotFound);
             }
+            patients.ForEach(pa => pa.Password = "");
             return (patients, RepoStatus.Success);
         }
         catch (Exception e)
         {
             _logger.LogError("[PatientRepo] GetAssignedPatients() failed " +
-                            $"when FindAsync() was called, error message: {e.Message}");
+                            $"when ToListAsync() was called, error message: {e.Message}");
             return ([], RepoStatus.Error);
+        }
+    }
+
+    public async Task<(Patient?, RepoStatus)> GetPatientLogin(String email, String hash)
+    {
+        try
+        {
+            Patient? patient = await _database.Patients.Where(pa => pa.Email == email).SingleAsync();
+            if (patient == null)
+            {
+                _logger.LogInformation("[PatientRepo] GetPatientLogin() could not find " +
+                                      $"Patient with Email = {email}");
+                return (null, RepoStatus.NotFound);
+            }
+            else if (patient.Password == hash)
+            {
+                _logger.LogInformation("[PatientRepo] GetPatientLogin() given password did not match " +
+                                      $"password of patient {email}");
+                return (null, RepoStatus.Unauthorized);
+            }
+
+            patient.Password = "";
+            return (patient, RepoStatus.Success);
+        }
+        catch (Exception e)
+        {
+            _logger.LogError("[PatientRepo] GetPatientLogin() failed " +
+                            $"when SingleAsync() was called, error message: {e.Message}");
+            return (null, RepoStatus.Error);
         }
     }
 }
