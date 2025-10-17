@@ -14,17 +14,17 @@ public class PatientRepo : IPatientRepo
         _logger = logger;
     }
 
-    public async Task<(List<Patient>?, RepoStatus)> GetAssignedPatients(int providerId)
+    public async Task<(List<Patient>?, RepoStatus)> GetAssignedPatients(int workerId)
     {
         try
         {
             List<Patient>? patients = await _database.Patients
-                .Where(pa => pa.ProviderId == providerId)
+                .Where(pa => pa.WorkerId == workerId)
                 .ToListAsync();
             if (!patients.Any())
             {
-                _logger.LogWarning("[PatientRepo] GetAssignedPatients() Patients related to Provider " +
-                                  $"with ProviderId = {providerId} was not found.");
+                _logger.LogWarning("[PatientRepo] GetAssignedPatients() Patients related to Worker " +
+                                  $"with WorkerId = {workerId} was not found.");
                 return ([], RepoStatus.NotFound);
             }
             patients.ForEach(pa => pa.Password = "");

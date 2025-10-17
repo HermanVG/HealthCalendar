@@ -1,16 +1,16 @@
 using System;
 namespace HealthCalendar.Models
 {
-    public class AvailabilityTimestamp
+    public class WorkerAvailability
     {
-        // primary and foreign key
-        public int ProviderId { get; set; }
         // primary key
+        public int WorkerAvailabilityId { get; set; }
+        // foreign key
+        public int WorkerId { get; set; }
         public DateOnly Date { get; set; }
-        // primary key
         public TimeOnly Start { get; set; }
         public TimeOnly End { get; set; }
         // navigation property
-        public virtual Provider Provider { get; set; } = default!;
+        public virtual Worker Worker { get; set; } = default!;
     }
 }

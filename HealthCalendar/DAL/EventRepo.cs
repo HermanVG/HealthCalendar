@@ -76,7 +76,7 @@ public class EventRepo : IEventRepo
         catch (Exception e)
         {
             _logger.LogError("[EventRepo] GetAssignedPatients() failed to create new " +
-                            $"availableDate {@eventt}, this is the error message: {e.Message}");
+                            $"Event {@eventt}, error message: {e.Message}");
             return RepoStatus.Error;
         }
     }

@@ -6,7 +6,7 @@ namespace HealthCalendar.Models
         // primary key
         public int PatientId { get; set; }
         // foreign key
-        public int? ProviderId { get; set; }
+        public int? WorkerId { get; set; }
         public String Firstname { get; set; } = String.Empty;
         public String Lastname { get; set; } = String.Empty;
 
@@ -15,7 +15,7 @@ namespace HealthCalendar.Models
         public int? Phone { get; set; }
         public DateOnly DateOfBirth { get; set; }
         // navigation property
-        public virtual Provider? Provider { get; set; }
+        public virtual Worker? Worker { get; set; }
         // navigation property
         public virtual List<Event>? Events { get; set; }
     }

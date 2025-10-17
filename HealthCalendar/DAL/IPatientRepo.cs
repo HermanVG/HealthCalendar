@@ -5,6 +5,6 @@ namespace HealthCalendar.DAL;
 
 public interface IPatientRepo
 {
-    Task<(List<Patient>?, RepoStatus)> GetAssignedPatients(int providerId);
+    Task<(List<Patient>?, RepoStatus)> GetAssignedPatients(int workerId);
     Task<(Patient?, RepoStatus)> GetPatientLogin(String email, String hash);
 }

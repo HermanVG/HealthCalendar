@@ -1,10 +1,10 @@
 using System;
 namespace HealthCalendar.Models
 {
-    public class Provider
+    public class Worker
     {
         // primary key
-        public int ProviderId { get; set; }
+        public int WorkerId { get; set; }
         public String Firstname { get; set; } = String.Empty;
         public String Lastname { get; set; } = String.Empty;
 
@@ -13,7 +13,7 @@ namespace HealthCalendar.Models
         public int? Phone { get; set; }
         public DateTime? LastLogin { get; set; }
         // navigation property
-        public virtual List<AvailabilityTimestamp>? Availability { get; set; }
+        public virtual List<WorkerAvailability>? WorkerAvailability { get; set; }
         // navigation property
         public virtual List<Patient>? Patients { get; set; }
 
