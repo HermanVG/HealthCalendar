@@ -6,6 +6,8 @@ namespace HealthCalendar.DAL;
 public interface IEventRepo
 {
     Task<(List<Event>?, RepoStatus)> GetEventsForDate(int patientId, DateOnly date);
+    Task<(List<Event>?, RepoStatus)> GetEventsForWeek(int patientId, DateOnly date);
+    Task<(List<Event>?, RepoStatus)> GetEventsForMonth(int patientId, DateOnly date);
     Task<(List<Event>?, RepoStatus)> GetNewEvents(int patientId, DateTime lastLogin);
     Task<RepoStatus> AddEvent(Event eventt);
 }

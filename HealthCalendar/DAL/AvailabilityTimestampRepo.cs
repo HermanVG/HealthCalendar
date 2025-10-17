@@ -33,33 +33,46 @@ public class AvailabilityTimestampRepo : IAvailabilityTimestampRepo
         }
     }
 
-    /*
-    public async Task<(DateOnly?, RepoStatus)> GetDateAvailability(int personellId, DateOnly date)
+    public async Task<(List<AvailabilityTimestamp>?, RepoStatus)> GetDateAvailability(int providerId, DateOnly date)
     {
         try
         {
-            AvailableDate? availableDate = await _database.AvailableDates.FindAsync(personellId);
-            if (availableDate == null) return (null, RepoStatus.Success);
-            return (availableDate.Date, RepoStatus.Success);
+            List<AvailabilityTimestamp>? dateAvailability = await _database.Availability
+                .Where(aT => aT.ProviderId == providerId && aT.Date.Equals(date))
+                .ToListAsync();
+            return (dateAvailability, RepoStatus.Success);
         }
         catch (Exception e)
         {
             _logger.LogError("[AvailableDateRepo] GetDateAvailability() failed " +
-                            $"when FindAsync() was called, error message: {e.Message}");
+                            $"when ToListAsync() was called, error message: {e.Message}");
             return (null, RepoStatus.Error);
         }
     }
-    */
 
-    public async Task<(List<AvailabilityTimestamp>, RepoStatus)> GetWeekAvailability(int providerId, DateOnly date)
+    public async Task<(List<AvailabilityTimestamp>, RepoStatus)> GetMonthAvailability(int providerId, DateOnly date)
     {
         try
         {
-            List<AvailabilityTimestamp> availability = await _database.Availability
-                .Where(av => av.ProviderId == providerId)
+            int month = date.Month;
+            List<AvailabilityTimestamp> monthAvailability = await _database.Availability
+                .Where(aT => aT.ProviderId == providerId && aT.Date.Month == month)
                 .ToListAsync();
-            if (!availability.Any()) return ([], RepoStatus.Success);
-
+            return (monthAvailability, RepoStatus.Success);
+        }
+        catch (Exception e)
+        {
+            _logger.LogError("[AvailabilityTimestampRepo] GetMonthAvailability() failed " +
+                            $"when ToListAsync() was called, error message: {e.Message}");
+            return ([], RepoStatus.Error);
+        }
+    }
+    
+    public async Task<(List<AvailabilityTimestamp>, RepoStatus)> 
+        GetWeekAvailability(List<AvailabilityTimestamp> monthAvailability, DateOnly date)
+    {
+        try
+        {
             int diffFromMonday = ((int)date.DayOfWeek + 6) % 7;
             DateOnly monday = date.AddDays(-diffFromMonday);
 
@@ -70,7 +83,7 @@ public class AvailabilityTimestampRepo : IAvailabilityTimestampRepo
             }
 
             List<AvailabilityTimestamp> weekAvailability = new List<AvailabilityTimestamp>();
-            foreach (AvailabilityTimestamp availabilityTimestamp in availability)
+            foreach (AvailabilityTimestamp availabilityTimestamp in monthAvailability)
             {
                 if (week.Contains(availabilityTimestamp.Date)) weekAvailability.Add(availabilityTimestamp);
             }
@@ -85,33 +98,6 @@ public class AvailabilityTimestampRepo : IAvailabilityTimestampRepo
         }
     }
 
-    public async Task<(List<AvailabilityTimestamp>, RepoStatus)> GetMonthAvailability(int providerId, DateOnly date)
-    {
-        try
-        {
-            List<AvailabilityTimestamp> availability = await _database.Availability
-                .Where(av => av.ProviderId == providerId)
-                .ToListAsync();
-            if (!availability.Any()) return ([], RepoStatus.Success);
-
-            int month = date.Month;
-
-            List<AvailabilityTimestamp> monthAvailability = new List<AvailabilityTimestamp>();
-            foreach (AvailabilityTimestamp availabilityTimestamp in availability)
-            {
-                if (month == availabilityTimestamp.Date.Month) monthAvailability.Add(availabilityTimestamp);
-            }
-
-            return (monthAvailability, RepoStatus.Success);
-        }
-        catch (Exception e)
-        {
-            _logger.LogError("[AvailabilityTimestampRepo] GetMonthAvailability() failed " +
-                            $"when ToListAsync() was called, error message: {e.Message}");
-            return ([], RepoStatus.Error);
-        }
-    }
-    
     public async Task<RepoStatus> AddAvailabilityTimestamp(AvailabilityTimestamp availabilityTimestamp)
     {
         try

@@ -31,6 +31,9 @@ public class EventRepo : IEventRepo
         }
     }
 
+    Task<(List<Event>?, RepoStatus)> GetEventsForWeek(int patientId, DateOnly date);
+    Task<(List<Event>?, RepoStatus)> GetEventsForMonth(int patientId, DateOnly date);
+
     public async Task<(List<Event>?, RepoStatus)> GetNewEvents(int patientId, DateTime lastLogin)
     {
         try
