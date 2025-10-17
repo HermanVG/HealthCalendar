@@ -88,8 +88,8 @@ public class WorkerAvailabilityRepo : IWorkerAvailabilityRepo
             return ([], RepoStatus.Error);
         }
     }
-    
-    public async Task<RepoStatus> AddAvailability(WorkerAvailability timestampAvailability)
+
+    public async Task<RepoStatus> AddTimestampAvailability(WorkerAvailability timestampAvailability)
     {
         try
         {
@@ -99,9 +99,25 @@ public class WorkerAvailabilityRepo : IWorkerAvailabilityRepo
         }
         catch (Exception e)
         {
-            _logger.LogError("[WorkerAvailabilityRepo] AddDate() failed to create new " + 
+            _logger.LogError("[WorkerAvailabilityRepo] AddDate() failed to create new " +
                             $"availableDate {@timestampAvailability}, this is the error message: {e.Message}");
             return RepoStatus.Error;
+        }
+    }
+    
+    public async Task<RepoStatus> UpdateTimestampAvailability(WorkerAvailability timestampAvailability)
+    {
+        try
+        {
+            _database.WorkerAvailability.Update(timestampAvailability);
+            await _database.SaveChangesAsync();
+            return RepoStatus.Success;
+        }
+        catch (Exception e)
+        {
+            _logger.LogError("[WorkerAvailabilityRepo] UpdateTimestampAvailability() failed to update previous " +
+                            $"TimestampAvailability to {@timestampAvailability}, error message: {e.Message}");
+            return (RepoStatus.Error);
         }
     }
 }
