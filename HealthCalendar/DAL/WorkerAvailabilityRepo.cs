@@ -16,6 +16,28 @@ public class WorkerAvailabilityRepo : IWorkerAvailabilityRepo
         _logger = logger;
     }
 
+    public async Task<(WorkerAvailability?, RepoStatus)> GetTimestampAvailability(int availabilityId)
+    {
+        try
+        {
+            WorkerAvailability? timestampAvailability = await _database.WorkerAvailability.FindAsync(availabilityId);
+            if (timestampAvailability == null)
+            {
+                _logger.LogWarning("[WorkerAvailabilityRepo] GetTimestampAvailability() WorkerAvailability " +
+                                  $"with AvailabilityId = {availabilityId} was not found.");
+                return (null, RepoStatus.NotFound);
+            }
+            return (timestampAvailability, RepoStatus.Success);
+        }
+        catch (Exception e)
+        {
+            _logger.LogError("[WorkerAvailabilityRepo] GetTimestampAvailability() failed " +
+                            $"when FindAsync() was called, error message: {e.Message}");
+            return (null, RepoStatus.Error);
+        }
+    }
+
+
     public async Task<(List<WorkerAvailability>, RepoStatus)> GetAvailability(int workerId)
     {
         try
