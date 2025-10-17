@@ -46,7 +46,7 @@ public class AvailabilityTimestampRepo : IAvailabilityTimestampRepo
         {
             _logger.LogError("[AvailableDateRepo] GetDateAvailability() failed " +
                             $"when ToListAsync() was called, error message: {e.Message}");
-            return (null, RepoStatus.Error);
+            return ([], RepoStatus.Error);
         }
     }
 
@@ -54,9 +54,8 @@ public class AvailabilityTimestampRepo : IAvailabilityTimestampRepo
     {
         try
         {
-            int month = date.Month;
             List<AvailabilityTimestamp> monthAvailability = await _database.Availability
-                .Where(aT => aT.ProviderId == providerId && aT.Date.Month == month)
+                .Where(aT => aT.ProviderId == providerId && aT.Date.Month == date.Month)
                 .ToListAsync();
             return (monthAvailability, RepoStatus.Success);
         }
