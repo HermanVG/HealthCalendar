@@ -10,5 +10,5 @@ public interface IWorkerAvailabilityRepo
     Task<(List<WorkerAvailability>, RepoStatus)> GetMonthAvailability(int workerId, DateOnly date);
     Task<RepoStatus> AddTimestampAvailability(WorkerAvailability availabilityTimestamp);
     Task<RepoStatus> UpdateTimestampAvailability(WorkerAvailability timestampAvailability);
-    //Task<RepoStatus> DeleteTimestampAvailability();
+    Task<RepoStatus> DeleteTimestampAvailability(WorkerAvailability timestampAvailability);
 }

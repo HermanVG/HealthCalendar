@@ -104,7 +104,7 @@ public class WorkerAvailabilityRepo : IWorkerAvailabilityRepo
             return RepoStatus.Error;
         }
     }
-    
+
     public async Task<RepoStatus> UpdateTimestampAvailability(WorkerAvailability timestampAvailability)
     {
         try
@@ -117,7 +117,23 @@ public class WorkerAvailabilityRepo : IWorkerAvailabilityRepo
         {
             _logger.LogError("[WorkerAvailabilityRepo] UpdateTimestampAvailability() failed to update previous " +
                             $"TimestampAvailability to {@timestampAvailability}, error message: {e.Message}");
-            return (RepoStatus.Error);
+            return RepoStatus.Error;
+        }
+    }
+    
+    public async Task<RepoStatus> DeleteTimestampAvailability(WorkerAvailability timestampAvailability)
+    {
+        try
+        {
+            _database.WorkerAvailability.Remove(timestampAvailability);
+            await _database.SaveChangesAsync();
+            return RepoStatus.Success;
+        }
+        catch (Exception e)
+        {
+            _logger.LogError("[WorkerAvailabilityRepo] DeleteTimestampAvailability() failed to remove " +
+                            $"TimestampAvailability {@timestampAvailability} from table, error message: {e.Message}");
+            return RepoStatus.Error;
         }
     }
 }
