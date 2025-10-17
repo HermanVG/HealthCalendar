@@ -101,4 +101,20 @@ public class EventRepo : IEventRepo
             return RepoStatus.Error;
         }
     }
+
+    public async Task<RepoStatus> UpdateEvent(Event eventt)
+    {
+        try
+        {
+            _database.Events.Update(eventt);
+            await _database.SaveChangesAsync();
+            return RepoStatus.Success;
+        }
+        catch (Exception e)
+        {
+            _logger.LogError("[EventRepo] UpdateEvent() failed to update previous " +
+                            $"Event to {@eventt}, error message: {e.Message}");
+            return RepoStatus.Error;
+        }
+    }
 }

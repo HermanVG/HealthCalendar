@@ -10,6 +10,6 @@ public interface IEventRepo
     Task<(List<Event>?, RepoStatus)> GetEventsForMonth(int patientId, DateOnly date);
     Task<(List<Event>?, RepoStatus)> GetNewEvents(int patientId, DateTime lastLogin);
     Task<RepoStatus> AddEvent(Event eventt);
-    //Task<RepoStatus> UpdateEvent(Event eventt);
+    Task<RepoStatus> UpdateEvent(Event eventt);
     //Task<RepoStatus> DeleteEvent(Event eventt);
 }
