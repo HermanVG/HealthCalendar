@@ -117,4 +117,20 @@ public class EventRepo : IEventRepo
             return RepoStatus.Error;
         }
     }
+
+    public async Task<RepoStatus> DeleteEvent(Event eventt)
+    {
+        try
+        {
+            _database.Events.Remove(eventt);
+            await _database.SaveChangesAsync();
+            return RepoStatus.Success;
+        }
+        catch (Exception e)
+        {
+            _logger.LogError("[EventRepo] DeleteEvent() failed to remove " +
+                            $"Event {@eventt} from database, error message: {e.Message}");
+            return RepoStatus.Error;
+        }
+    }
 }

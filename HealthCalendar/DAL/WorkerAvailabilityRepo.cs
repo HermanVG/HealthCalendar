@@ -132,7 +132,7 @@ public class WorkerAvailabilityRepo : IWorkerAvailabilityRepo
         catch (Exception e)
         {
             _logger.LogError("[WorkerAvailabilityRepo] DeleteTimestampAvailability() failed to remove " +
-                            $"TimestampAvailability {@timestampAvailability} from table, error message: {e.Message}");
+                            $"TimestampAvailability {@timestampAvailability} from database, error message: {e.Message}");
             return RepoStatus.Error;
         }
     }
