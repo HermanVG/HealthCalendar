@@ -14,6 +14,27 @@ public class EventRepo : IEventRepo
         _logger = logger;
     }
 
+    public async Task<(Event?, RepoStatus)> GetEvent(int eventId)
+    {
+        try
+        {
+            Event? eventt = await _database.Events.FindAsync(eventId);
+            if (eventt == null)
+            {
+                _logger.LogWarning("[EventRepo] GetEvent() Event " +
+                                  $"with EventId = {eventId} was not found.");
+                return (null, RepoStatus.NotFound);
+            }
+            return (eventt, RepoStatus.Success);
+        }
+        catch (Exception e)
+        {
+            _logger.LogError("[EventRepo] GetEvent() failed " +
+                            $"when FindAsync() was called, error message: {e.Message}");
+            return (null, RepoStatus.Error);
+        }
+    }
+
     public async Task<(List<Event>?, RepoStatus)> GetEventsForDate(int patientId, DateOnly date)
     {
         try
