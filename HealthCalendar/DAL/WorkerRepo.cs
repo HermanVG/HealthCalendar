@@ -81,6 +81,22 @@ public class WorkerRepo : IWorkerRepo
         }
     }
 
+    public async Task<RepoStatus> RegisterWorker(Worker worker)
+    {
+        try
+        {
+            _database.Workers.Add(worker);
+            await _database.SaveChangesAsync();
+            return RepoStatus.Success;
+        }
+        catch (Exception e)
+        {
+            _logger.LogError("[WorkerRepo] RegisterWorker() failed to create new " +
+                            $"Worker {@worker}, error message: {e.Message}");
+            return RepoStatus.Error;
+        }
+    }
+
     public async Task<RepoStatus> UpdateLastLogin(int workerId, DateTime loginTimestamp)
     {
         try

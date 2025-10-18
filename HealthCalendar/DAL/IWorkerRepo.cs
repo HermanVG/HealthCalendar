@@ -8,5 +8,6 @@ public interface IWorkerRepo
     Task<(Worker?, RepoStatus)> GetWorker(int patientId);
     Task<(List<String>, RepoStatus)> GetAllWorkerEmails();
     Task<(Worker?, RepoStatus)> GetWorkerLogin(String email, String hash);
+    Task<RepoStatus> RegisterWorker(Worker worker);
     Task<RepoStatus> UpdateLastLogin(int workerId, DateTime loginTimestamp);
 }
