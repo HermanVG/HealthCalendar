@@ -7,8 +7,8 @@ namespace HealthCalendar.Models
         public int PatientId { get; set; }
         // foreign key
         public int? WorkerId { get; set; }
-        public String Firstname { get; set; } = String.Empty;
-        public String Lastname { get; set; } = String.Empty;
+        public String FirstName { get; set; } = String.Empty;
+        public String LastName { get; set; } = String.Empty;
 
         public String Email { get; set; } = String.Empty;
         public String Password { get; set; } = String.Empty;
