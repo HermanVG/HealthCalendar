@@ -1,4 +1,5 @@
 using System;
+using Castle.Components.DictionaryAdapter.Xml;
 using HealthCalendar.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -33,6 +34,21 @@ public class PatientRepo : IPatientRepo
         catch (Exception e)
         {
             _logger.LogError("[PatientRepo] GetAssignedPatients() failed " +
+                            $"when ToListAsync() was called, error message: {e.Message}");
+            return ([], RepoStatus.Error);
+        }
+    }
+
+    public async Task<(List<String>, RepoStatus)> GetAllPatientEmails()
+    {
+        try
+        {
+            List<String> emails = await _database.Patients.Select(pa => pa.Email).ToListAsync();
+            return (emails, RepoStatus.Success);
+        }
+        catch (Exception e)
+        {
+            _logger.LogError("[PatientRepo] GetAllPatientEmails() failed " +
                             $"when ToListAsync() was called, error message: {e.Message}");
             return ([], RepoStatus.Error);
         }
