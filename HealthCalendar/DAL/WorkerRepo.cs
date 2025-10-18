@@ -37,11 +37,26 @@ public class WorkerRepo : IWorkerRepo
         }
     }
 
+    public async Task<(List<String>, RepoStatus)> GetAllWorkerEmails()
+    {
+        try
+        {
+            List<String> emails = await _database.Workers.Select(w => w.Email).ToListAsync();
+            return (emails, RepoStatus.Success);
+        }
+        catch (Exception e)
+        {
+            _logger.LogError("[WorkerRepo] GetAllWorkerEmails() failed " +
+                            $"when ToListAsync() was called, error message: {e.Message}");
+            return ([], RepoStatus.Error);
+        }
+    }
+
     public async Task<(Worker?, RepoStatus)> GetWorkerLogin(String email, String hash)
     {
         try
         {
-            Worker? worker = await _database.Workers.Where(pr => pr.Email == email).SingleAsync();
+            Worker? worker = await _database.Workers.Where(w => w.Email == email).SingleAsync();
             if (worker == null)
             {
                 _logger.LogInformation("[WorkerRepo] GetWorkerLogin() could not find " +
@@ -71,8 +86,8 @@ public class WorkerRepo : IWorkerRepo
         try
         {
             _database.Workers
-                .Where(pr => pr.WorkerId == workerId)
-                .ExecuteUpdate(db => db.SetProperty(pr => pr.LastLogin, loginTimestamp));
+                .Where(w => w.WorkerId == workerId)
+                .ExecuteUpdate(db => db.SetProperty(w => w.LastLogin, loginTimestamp));
             await _database.SaveChangesAsync();
             return RepoStatus.Success;
         }

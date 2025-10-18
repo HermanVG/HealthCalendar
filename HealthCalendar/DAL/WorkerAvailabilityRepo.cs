@@ -60,7 +60,7 @@ public class WorkerAvailabilityRepo : IWorkerAvailabilityRepo
         try
         {
             List<WorkerAvailability>? dateAvailability = await _database.WorkerAvailability
-                .Where(aW => aW.WorkerId == workerId && aW.Date.Equals(date))
+                .Where(wA => wA.WorkerId == workerId && wA.Date.Equals(date))
                 .ToListAsync();
             return (dateAvailability, RepoStatus.Success);
         }
@@ -77,7 +77,7 @@ public class WorkerAvailabilityRepo : IWorkerAvailabilityRepo
         try
         {
             List<WorkerAvailability> monthAvailability = await _database.WorkerAvailability
-                .Where(aW => aW.WorkerId == workerId && aW.Date.Month == date.Month)
+                .Where(wA => wA.WorkerId == workerId && wA.Date.Month == date.Month)
                 .ToListAsync();
             return (monthAvailability, RepoStatus.Success);
         }

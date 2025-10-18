@@ -20,7 +20,7 @@ public class PatientRepo : IPatientRepo
         try
         {
             List<Patient>? patients = await _database.Patients
-                .Where(pa => pa.WorkerId == workerId)
+                .Where(p => p.WorkerId == workerId)
                 .ToListAsync();
             if (!patients.Any())
             {
@@ -28,7 +28,7 @@ public class PatientRepo : IPatientRepo
                                   $"with WorkerId = {workerId} was not found.");
                 return ([], RepoStatus.NotFound);
             }
-            patients.ForEach(pa => pa.Password = "");
+            patients.ForEach(p => p.Password = "");
             return (patients, RepoStatus.Success);
         }
         catch (Exception e)
@@ -43,7 +43,7 @@ public class PatientRepo : IPatientRepo
     {
         try
         {
-            List<String> emails = await _database.Patients.Select(pa => pa.Email).ToListAsync();
+            List<String> emails = await _database.Patients.Select(p => p.Email).ToListAsync();
             return (emails, RepoStatus.Success);
         }
         catch (Exception e)
@@ -58,7 +58,7 @@ public class PatientRepo : IPatientRepo
     {
         try
         {
-            Patient? patient = await _database.Patients.Where(pa => pa.Email == email).SingleAsync();
+            Patient? patient = await _database.Patients.Where(p => p.Email == email).SingleAsync();
             if (patient == null)
             {
                 _logger.LogInformation("[PatientRepo] GetPatientLogin() could not find " +
