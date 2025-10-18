@@ -82,4 +82,20 @@ public class PatientRepo : IPatientRepo
             return (null, RepoStatus.Error);
         }
     }
+
+    public async Task<RepoStatus> RegisterPatient(Patient patient)
+    {
+        try
+        {
+            _database.Patients.Add(patient);
+            await _database.SaveChangesAsync();
+            return RepoStatus.Success;
+        }
+        catch (Exception e)
+        {
+            _logger.LogError("[PatientRepo] RegisterPatient() failed to create new " +
+                            $"Patient {@patient}, error message: {e.Message}");
+            return RepoStatus.Error;
+        }
+    }
 }
