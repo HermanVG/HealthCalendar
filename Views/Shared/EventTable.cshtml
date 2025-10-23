@@ -1,0 +1,24 @@
+@model IEnumerable<HealthCalendar.Models.Event>
+
+<table class="table table-hover align-middle">
+    <thead class="table-light">
+        <tr>
+            <th>Start</th>
+            <th>End</th>
+            <th>Title</th>
+            <th>Patient</th>
+            <th>Worker</th>
+            <th>Status</th>
+            <th class="text-end">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null)
+        {
+            foreach (var ev in Model)
+            {
+                <partial name="_EventRow" model="ev" />
+            }
+        }
+    </tbody>
+</table>

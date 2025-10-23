@@ -1,0 +1,28 @@
+@model HealthCalendar.Models.Event
+@{
+    ViewBag.Title = "Delete appointment";
+}
+
+<h1 class="h4 mb-3">Delete appointment #@Model.EventId</h1>
+
+<div class="alert alert-warning">Are you sure you want to delete this appointment?</div>
+
+<div class="card shadow-sm mb-3">
+  <div class="card-body">
+    <dl class="row mb-0">
+      <dt class="col-sm-3">Date</dt>  <dd class="col-sm-9">@Model.Date.ToString("yyyy-MM-dd")</dd>
+      <dt class="col-sm-3">Start</dt> <dd class="col-sm-9">@Model.Start.ToString("HH\\:mm")</dd>
+      <dt class="col-sm-3">End</dt>   <dd class="col-sm-9">@Model.End.ToString("HH\\:mm")</dd>
+      <dt class="col-sm-3">Location</dt> <dd class="col-sm-9">@Model.Location</dd>
+      <dt class="col-sm-3">PatientId</dt><dd class="col-sm-9">@Model.PatientId</dd>
+      <dt class="col-sm-3">Description</dt><dd class="col-sm-9">@Model.Description</dd>
+    </dl>
+  </div>
+</div>
+
+<form asp-action="Delete" asp-controller="Event" method="post">
+  @Html.AntiForgeryToken()   <!-- add this line -->
+  <input type="hidden" asp-for="EventId" />
+  <button type="submit" class="btn btn-danger">Delete</button>
+  <a class="btn btn-outline-secondary" asp-controller="Event" asp-action="Index">Cancel</a>
+</form>

@@ -1,0 +1,91 @@
+2025-10-23 22:18:36.939 +02:00 [INF] User profile is available. Using 'C:\Users\Bruker\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-23 22:18:37.039 +02:00 [INF] Now listening on: http://localhost:5230
+2025-10-23 22:18:37.047 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-23 22:18:37.048 +02:00 [INF] Hosting environment: Development
+2025-10-23 22:18:37.048 +02:00 [INF] Content root path: C:\Users\Bruker\Desktop\Webapp\HealthCalendar\HealthCalendar
+2025-10-23 22:18:42.906 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5230/ - null null
+2025-10-23 22:18:42.945 +02:00 [INF] Executing endpoint 'HealthCalendar.Controllers.HomeController.Index (HealthCalendar)'
+2025-10-23 22:18:43.003 +02:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller HealthCalendar.Controllers.HomeController (HealthCalendar).
+2025-10-23 22:18:43.032 +02:00 [INF] Executing ViewResult, running view Index.
+2025-10-23 22:18:43.208 +02:00 [INF] Executed action HealthCalendar.Controllers.HomeController.Index (HealthCalendar) in 199.2431ms
+2025-10-23 22:18:43.215 +02:00 [INF] Executed endpoint 'HealthCalendar.Controllers.HomeController.Index (HealthCalendar)'
+2025-10-23 22:18:43.252 +02:00 [ERR] An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: The partial view '_Alerts' was not found. The following locations were searched:
+/Views/Home/_Alerts.cshtml
+/Views/Shared/_Alerts.cshtml
+   at Microsoft.AspNetCore.Mvc.TagHelpers.PartialTagHelper.ProcessAsync(TagHelperContext context, TagHelperOutput output)
+   at Microsoft.AspNetCore.Razor.Runtime.TagHelpers.TagHelperRunner.<RunAsync>g__Awaited|0_0(Task task, TagHelperExecutionContext executionContext, Int32 i, Int32 count)
+   at AspNetCoreGeneratedDocument.Views_Shared__Layout.<>c__DisplayClass27_0.<<ExecuteAsync>b__1>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Razor.Runtime.TagHelpers.TagHelperExecutionContext.SetOutputContentAsync()
+   at AspNetCoreGeneratedDocument.Views_Shared__Layout.ExecuteAsync() in C:\Users\Bruker\Desktop\Webapp\HealthCalendar\HealthCalendar\Views\Shared\_Layout.cshtml:line 2
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderPageCoreAsync(IRazorPage page, ViewContext context)
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderPageAsync(IRazorPage page, ViewContext context, Boolean invokeViewStarts)
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderLayoutAsync(ViewContext context, ViewBufferTextWriter bodyWriter)
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderAsync(ViewContext context)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewExecutor.ExecuteAsync(ViewContext viewContext, String contentType, Nullable`1 statusCode)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewExecutor.ExecuteAsync(ViewContext viewContext, String contentType, Nullable`1 statusCode)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewExecutor.ExecuteAsync(ActionContext actionContext, IView view, ViewDataDictionary viewData, ITempDataDictionary tempData, String contentType, Nullable`1 statusCode)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor.ExecuteAsync(ActionContext context, ViewResult result)
+   at Microsoft.AspNetCore.Mvc.ViewResult.ExecuteResultAsync(ActionContext context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResultFilterAsync>g__Awaited|30_0[TFilter,TFilterAsync](ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResultExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.ResultNext[TFilter,TFilterAsync](State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeResultFilters()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeFilterPipelineAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2025-10-23 22:18:43.298 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5230/ - 500 null text/html; charset=utf-8 395.5656ms
+2025-10-23 22:18:43.303 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5230/ - null null
+2025-10-23 22:18:43.304 +02:00 [INF] Executing endpoint 'HealthCalendar.Controllers.HomeController.Index (HealthCalendar)'
+2025-10-23 22:18:43.305 +02:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller HealthCalendar.Controllers.HomeController (HealthCalendar).
+2025-10-23 22:18:43.305 +02:00 [INF] Executing ViewResult, running view Index.
+2025-10-23 22:18:43.312 +02:00 [INF] Executed action HealthCalendar.Controllers.HomeController.Index (HealthCalendar) in 6.8607ms
+2025-10-23 22:18:43.312 +02:00 [INF] Executed endpoint 'HealthCalendar.Controllers.HomeController.Index (HealthCalendar)'
+2025-10-23 22:18:43.320 +02:00 [ERR] An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: The partial view '_Alerts' was not found. The following locations were searched:
+/Views/Home/_Alerts.cshtml
+/Views/Shared/_Alerts.cshtml
+   at Microsoft.AspNetCore.Mvc.TagHelpers.PartialTagHelper.ProcessAsync(TagHelperContext context, TagHelperOutput output)
+   at Microsoft.AspNetCore.Razor.Runtime.TagHelpers.TagHelperRunner.<RunAsync>g__Awaited|0_0(Task task, TagHelperExecutionContext executionContext, Int32 i, Int32 count)
+   at AspNetCoreGeneratedDocument.Views_Shared__Layout.<>c__DisplayClass27_0.<<ExecuteAsync>b__1>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Razor.Runtime.TagHelpers.TagHelperExecutionContext.SetOutputContentAsync()
+   at AspNetCoreGeneratedDocument.Views_Shared__Layout.ExecuteAsync() in C:\Users\Bruker\Desktop\Webapp\HealthCalendar\HealthCalendar\Views\Shared\_Layout.cshtml:line 2
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderPageCoreAsync(IRazorPage page, ViewContext context)
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderPageAsync(IRazorPage page, ViewContext context, Boolean invokeViewStarts)
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderLayoutAsync(ViewContext context, ViewBufferTextWriter bodyWriter)
+   at Microsoft.AspNetCore.Mvc.Razor.RazorView.RenderAsync(ViewContext context)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewExecutor.ExecuteAsync(ViewContext viewContext, String contentType, Nullable`1 statusCode)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewExecutor.ExecuteAsync(ViewContext viewContext, String contentType, Nullable`1 statusCode)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewExecutor.ExecuteAsync(ActionContext actionContext, IView view, ViewDataDictionary viewData, ITempDataDictionary tempData, String contentType, Nullable`1 statusCode)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor.ExecuteAsync(ActionContext context, ViewResult result)
+   at Microsoft.AspNetCore.Mvc.ViewResult.ExecuteResultAsync(ActionContext context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResultFilterAsync>g__Awaited|30_0[TFilter,TFilterAsync](ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResultExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.ResultNext[TFilter,TFilterAsync](State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeResultFilters()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeFilterPipelineAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2025-10-23 22:18:43.331 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5230/ - 500 null text/html; charset=utf-8 28.8293ms
+2025-10-23 22:18:43.514 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5230/favicon.ico - null null
+2025-10-23 22:18:43.518 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5230/favicon.ico - 404 0 null 4.0514ms
+2025-10-23 22:18:43.521 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5230/favicon.ico, Response status code: 404
+2025-10-23 22:18:43.521 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5230/favicon.ico - null null
+2025-10-23 22:18:43.522 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5230/favicon.ico - 404 0 null 0.815ms
+2025-10-23 22:18:43.522 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5230/favicon.ico, Response status code: 404

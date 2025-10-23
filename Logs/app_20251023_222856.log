@@ -1,0 +1,116 @@
+2025-10-23 22:28:56.937 +02:00 [INF] User profile is available. Using 'C:\Users\Bruker\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-23 22:28:57.051 +02:00 [INF] Now listening on: http://localhost:5230
+2025-10-23 22:28:57.060 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-23 22:28:57.062 +02:00 [INF] Hosting environment: Development
+2025-10-23 22:28:57.062 +02:00 [INF] Content root path: C:\Users\Bruker\Desktop\Webapp\HealthCalendar\HealthCalendar
+2025-10-23 22:29:00.420 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5230/ - null null
+2025-10-23 22:29:00.447 +02:00 [INF] Executing endpoint 'HealthCalendar.Controllers.HomeController.Index (HealthCalendar)'
+2025-10-23 22:29:00.487 +02:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller HealthCalendar.Controllers.HomeController (HealthCalendar).
+2025-10-23 22:29:00.511 +02:00 [INF] Executing ViewResult, running view Index.
+2025-10-23 22:29:00.678 +02:00 [INF] Executed ViewResult - view Index executed in 171.6805ms.
+2025-10-23 22:29:00.679 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5230/ - null null
+2025-10-23 22:29:00.682 +02:00 [INF] Executing endpoint 'HealthCalendar.Controllers.HomeController.Index (HealthCalendar)'
+2025-10-23 22:29:00.682 +02:00 [INF] Executed action HealthCalendar.Controllers.HomeController.Index (HealthCalendar) in 194.7871ms
+2025-10-23 22:29:00.682 +02:00 [INF] Executed endpoint 'HealthCalendar.Controllers.HomeController.Index (HealthCalendar)'
+2025-10-23 22:29:00.683 +02:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller HealthCalendar.Controllers.HomeController (HealthCalendar).
+2025-10-23 22:29:00.686 +02:00 [INF] Executing ViewResult, running view Index.
+2025-10-23 22:29:00.686 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5230/ - 200 null text/html; charset=utf-8 269.7371ms
+2025-10-23 22:29:00.691 +02:00 [INF] Executed ViewResult - view Index executed in 5.3874ms.
+2025-10-23 22:29:00.691 +02:00 [INF] Executed action HealthCalendar.Controllers.HomeController.Index (HealthCalendar) in 8.3475ms
+2025-10-23 22:29:00.691 +02:00 [INF] Executed endpoint 'HealthCalendar.Controllers.HomeController.Index (HealthCalendar)'
+2025-10-23 22:29:00.692 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5230/ - 200 null text/html; charset=utf-8 12.9389ms
+2025-10-23 22:29:00.692 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5230/css/site.css - null null
+2025-10-23 22:29:00.700 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5230/css/site.css - 404 0 null 8.0772ms
+2025-10-23 22:29:00.702 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5230/css/site.css, Response status code: 404
+2025-10-23 22:29:00.711 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5230/css/site.css - null null
+2025-10-23 22:29:00.712 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5230/css/site.css - 404 0 null 0.8502ms
+2025-10-23 22:29:00.712 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5230/css/site.css, Response status code: 404
+2025-10-23 22:29:13.283 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5230/Event - null null
+2025-10-23 22:29:13.284 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5230/Event - 404 0 null 0.942ms
+2025-10-23 22:29:13.284 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5230/Event, Response status code: 404
+2025-10-23 22:29:16.799 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5230/Event/Create - null null
+2025-10-23 22:29:16.800 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5230/Event/Create - 404 0 null 0.793ms
+2025-10-23 22:29:16.800 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5230/Event/Create, Response status code: 404
+2025-10-23 22:29:20.515 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5230/ - null null
+2025-10-23 22:29:20.515 +02:00 [INF] Executing endpoint 'HealthCalendar.Controllers.HomeController.Index (HealthCalendar)'
+2025-10-23 22:29:20.516 +02:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller HealthCalendar.Controllers.HomeController (HealthCalendar).
+2025-10-23 22:29:20.516 +02:00 [INF] Executing ViewResult, running view Index.
+2025-10-23 22:29:20.519 +02:00 [INF] Executed ViewResult - view Index executed in 2.8859ms.
+2025-10-23 22:29:20.519 +02:00 [INF] Executed action HealthCalendar.Controllers.HomeController.Index (HealthCalendar) in 3.198ms
+2025-10-23 22:29:20.519 +02:00 [INF] Executed endpoint 'HealthCalendar.Controllers.HomeController.Index (HealthCalendar)'
+2025-10-23 22:29:20.519 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5230/ - 200 null text/html; charset=utf-8 4.8088ms
+2025-10-23 22:29:20.542 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5230/css/site.css - null null
+2025-10-23 22:29:20.544 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5230/css/site.css - 404 0 null 1.3775ms
+2025-10-23 22:29:20.544 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5230/css/site.css, Response status code: 404
+2025-10-23 22:29:21.707 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5230/Event - null null
+2025-10-23 22:29:21.715 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5230/Event - 404 0 null 8.1517ms
+2025-10-23 22:29:21.716 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5230/Event, Response status code: 404
+2025-10-23 22:29:24.747 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5230/WorkerAvailability - null null
+2025-10-23 22:29:24.748 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5230/WorkerAvailability - 404 0 null 0.6134ms
+2025-10-23 22:29:24.748 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5230/WorkerAvailability, Response status code: 404
+2025-10-23 22:29:27.929 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5230/Patient - null null
+2025-10-23 22:29:27.929 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5230/Patient - 404 0 null 0.6191ms
+2025-10-23 22:29:27.929 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5230/Patient, Response status code: 404
+2025-10-23 22:29:41.831 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5230/Patient - null null
+2025-10-23 22:29:41.832 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5230/Patient - 404 0 null 0.6344ms
+2025-10-23 22:29:41.832 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5230/Patient, Response status code: 404
+2025-10-23 22:30:08.329 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5230/Event - null null
+2025-10-23 22:30:08.330 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5230/Event - 404 0 null 0.6357ms
+2025-10-23 22:30:08.330 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5230/Event, Response status code: 404
+2025-10-23 22:30:25.114 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5230/Event?q= - null null
+2025-10-23 22:30:25.115 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5230/Event?q= - 404 0 null 0.7205ms
+2025-10-23 22:30:25.115 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5230/Event, Response status code: 404
+2025-10-23 22:31:21.448 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5230/Event - null null
+2025-10-23 22:31:21.449 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5230/Event - 404 0 null 0.9999ms
+2025-10-23 22:31:21.450 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5230/Event, Response status code: 404
+2025-10-23 22:32:47.373 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5230/Event - null null
+2025-10-23 22:32:47.374 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5230/Event - 404 0 null 0.6524ms
+2025-10-23 22:32:47.374 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5230/Event, Response status code: 404
+2025-10-23 22:37:17.528 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5230/Event - null null
+2025-10-23 22:37:17.529 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5230/Event - 404 0 null 0.6438ms
+2025-10-23 22:37:17.529 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5230/Event, Response status code: 404
+2025-10-23 22:41:08.612 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5230/Event?q= - null null
+2025-10-23 22:41:08.612 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5230/Event?q= - 404 0 null 0.7231ms
+2025-10-23 22:41:08.612 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5230/Event, Response status code: 404
+2025-10-23 22:41:14.094 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5230/Worker - null null
+2025-10-23 22:41:14.095 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5230/Worker - 404 0 null 0.549ms
+2025-10-23 22:41:14.095 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5230/Worker, Response status code: 404
+2025-10-23 22:41:17.265 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5230/ - null null
+2025-10-23 22:41:17.266 +02:00 [INF] Executing endpoint 'HealthCalendar.Controllers.HomeController.Index (HealthCalendar)'
+2025-10-23 22:41:17.266 +02:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller HealthCalendar.Controllers.HomeController (HealthCalendar).
+2025-10-23 22:41:17.268 +02:00 [INF] Executing ViewResult, running view Index.
+2025-10-23 22:41:17.270 +02:00 [INF] Executed ViewResult - view Index executed in 3.6125ms.
+2025-10-23 22:41:17.270 +02:00 [INF] Executed action HealthCalendar.Controllers.HomeController.Index (HealthCalendar) in 3.8769ms
+2025-10-23 22:41:17.270 +02:00 [INF] Executed endpoint 'HealthCalendar.Controllers.HomeController.Index (HealthCalendar)'
+2025-10-23 22:41:17.270 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5230/ - 200 null text/html; charset=utf-8 4.8546ms
+2025-10-23 22:41:17.303 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5230/css/site.css - null null
+2025-10-23 22:41:17.304 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5230/css/site.css - 404 0 null 1.2375ms
+2025-10-23 22:41:17.304 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5230/css/site.css, Response status code: 404
+2025-10-23 22:41:20.881 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5230/ - null null
+2025-10-23 22:41:20.881 +02:00 [INF] Executing endpoint 'HealthCalendar.Controllers.HomeController.Index (HealthCalendar)'
+2025-10-23 22:41:20.881 +02:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller HealthCalendar.Controllers.HomeController (HealthCalendar).
+2025-10-23 22:41:20.882 +02:00 [INF] Executing ViewResult, running view Index.
+2025-10-23 22:41:20.883 +02:00 [INF] Executed ViewResult - view Index executed in 1.8437ms.
+2025-10-23 22:41:20.884 +02:00 [INF] Executed action HealthCalendar.Controllers.HomeController.Index (HealthCalendar) in 2.1647ms
+2025-10-23 22:41:20.884 +02:00 [INF] Executed endpoint 'HealthCalendar.Controllers.HomeController.Index (HealthCalendar)'
+2025-10-23 22:41:20.884 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5230/ - 200 null text/html; charset=utf-8 2.963ms
+2025-10-23 22:41:20.919 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5230/css/site.css - null null
+2025-10-23 22:41:20.920 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5230/css/site.css - 404 0 null 0.9344ms
+2025-10-23 22:41:20.920 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5230/css/site.css, Response status code: 404
+2025-10-23 22:41:21.831 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5230/ - null null
+2025-10-23 22:41:21.831 +02:00 [INF] Executing endpoint 'HealthCalendar.Controllers.HomeController.Index (HealthCalendar)'
+2025-10-23 22:41:21.832 +02:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller HealthCalendar.Controllers.HomeController (HealthCalendar).
+2025-10-23 22:41:21.832 +02:00 [INF] Executing ViewResult, running view Index.
+2025-10-23 22:41:21.833 +02:00 [INF] Executed ViewResult - view Index executed in 1.3059ms.
+2025-10-23 22:41:21.833 +02:00 [INF] Executed action HealthCalendar.Controllers.HomeController.Index (HealthCalendar) in 1.5118ms
+2025-10-23 22:41:21.833 +02:00 [INF] Executed endpoint 'HealthCalendar.Controllers.HomeController.Index (HealthCalendar)'
+2025-10-23 22:41:21.833 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5230/ - 200 null text/html; charset=utf-8 2.2183ms
+2025-10-23 22:41:21.852 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5230/css/site.css - null null
+2025-10-23 22:41:21.852 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5230/css/site.css - 404 0 null 0.6893ms
+2025-10-23 22:41:21.852 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5230/css/site.css, Response status code: 404
+2025-10-23 22:41:23.205 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5230/Event - null null
+2025-10-23 22:41:23.206 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5230/Event - 404 0 null 0.3418ms
+2025-10-23 22:41:23.206 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5230/Event, Response status code: 404
+2025-10-23 22:41:31.943 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5230/Patient - null null
+2025-10-23 22:41:31.944 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5230/Patient - 404 0 null 0.6481ms
+2025-10-23 22:41:31.944 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5230/Patient, Response status code: 404

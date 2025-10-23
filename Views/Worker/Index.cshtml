@@ -1,0 +1,40 @@
+@model IEnumerable<HealthCalendar.Models.Patient>
+@{
+    ViewBag.Title = "Patients";
+}
+
+<h1 class="h4 mb-3">Patients</h1>
+
+<div class="card shadow-sm">
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-hover align-middle">
+        <thead class="table-light">
+          <tr>
+            <th>PatientId</th>
+            <th>First name</th>
+            <th>Last name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>WorkerId</th>
+            <th>Date of birth</th>
+          </tr>
+        </thead>
+        <tbody>
+          @foreach (var p in Model ?? Enumerable.Empty<HealthCalendar.Models.Patient>())
+          {
+              <tr>
+                  <td>@p.PatientId</td>
+                  <td>@p.FirstName</td>
+                  <td>@p.LastName</td>
+                  <td>@p.Email</td>
+                  <td>@p.Phone</td>
+                  <td>@p.WorkerId</td>
+                  <td>@p.DateOfBirth.ToString("yyyy-MM-dd")</td>
+              </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

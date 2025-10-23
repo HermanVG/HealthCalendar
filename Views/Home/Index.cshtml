@@ -1,0 +1,68 @@
+@{
+    ViewBag.Title = "Home";
+}
+
+<div class="row g-4">
+    <div class="col-lg-8">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h1 class="h4 mb-2">Welcome to HealthCalendar</h1>
+                <p class="text-muted mb-3">
+                    Book and manage appointments for patients and workers.
+                </p>
+
+                <div class="d-flex flex-wrap gap-2">
+                    <a class="btn btn-primary" asp-controller="Event" asp-action="Index">
+                        View Appointments
+                    </a>
+                    <a class="btn btn-outline-primary" asp-controller="Event" asp-action="Create">
+                        Book Appointment
+                    </a>
+                    <a class="btn btn-outline-secondary" asp-controller="WorkerAvailability" asp-action="Index">
+                        Worker Availability
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-3 mt-1">
+            <div class="col-md-6">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h2 class="h6">Patients</h2>
+                        <p class="small text-muted mb-3">Browse all registered patients.</p>
+                        <a class="btn btn-sm btn-outline-secondary" asp-controller="Patient" asp-action="Index">
+                            Open patients
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h2 class="h6">Workers</h2>
+                        <p class="small text-muted mb-3">Browse all workers and contacts.</p>
+                        <a class="btn btn-sm btn-outline-secondary" asp-controller="Worker" asp-action="Index">
+                            Open workers
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h2 class="h6">Quick links</h2>
+                <ul class="list-unstyled mb-0">
+                    <li><a asp-controller="Event" asp-action="Index">All appointments</a></li>
+                    <li><a asp-controller="Event" asp-action="Create">Book new appointment</a></li>
+                    <li><a asp-controller="WorkerAvailability" asp-action="Index">Worker availability</a></li>
+                    <li><a asp-controller="Patient" asp-action="Index">Patients</a></li>
+                    <li><a asp-controller="Worker" asp-action="Index">Workers</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

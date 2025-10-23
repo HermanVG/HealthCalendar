@@ -1,0 +1,47 @@
+@model HealthCalendar.Models.Event
+@{
+    ViewBag.Title = "Appointment Details";
+}
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a asp-controller="Event" asp-action="Index">Appointments</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Details</li>
+  </ol>
+</nav>
+
+<div class="card shadow-sm">
+  <div class="card-body">
+    <h1 class="h5 mb-3">Appointment #@Model.EventId</h1>
+
+    <dl class="row">
+      <dt class="col-sm-3">Date</dt>
+      <dd class="col-sm-9">@Model.Date.ToString("yyyy-MM-dd")</dd>
+
+      <dt class="col-sm-3">Start</dt>
+      <dd class="col-sm-9">@Model.Start.ToString("HH\\:mm")</dd>
+
+      <dt class="col-sm-3">End</dt>
+      <dd class="col-sm-9">@Model.End.ToString("HH\\:mm")</dd>
+
+      <dt class="col-sm-3">Location</dt>
+      <dd class="col-sm-9">@Model.Location</dd>
+
+      <dt class="col-sm-3">Description</dt>
+      <dd class="col-sm-9">@Model.Description</dd>
+
+      <dt class="col-sm-3">PatientId</dt>
+      <dd class="col-sm-9">@Model.PatientId</dd>
+
+      <dt class="col-sm-3">Created</dt>
+      <dd class="col-sm-9">@Model.CreationTimestamp.ToString("yyyy-MM-dd HH\\:mm")</dd>
+
+      <dt class="col-sm-3">Patient (nav)</dt>
+      <dd class="col-sm-9">
+          @(Model.Patient != null ? $"{Model.Patient.FirstName} {Model.Patient.LastName}" : "—")
+      </dd>
+    </dl>
+
+    <a class="btn btn-outline-secondary" asp-controller="Event" asp-action="Index">Back</a>
+  </div>
+</div>

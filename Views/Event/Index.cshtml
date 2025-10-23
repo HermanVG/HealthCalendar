@@ -1,0 +1,64 @@
+@{
+    ViewBag.Title = "Home";
+}
+
+<div class="row g-4">
+    <div class="col-lg-8">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h1 class="h4 mb-3">Welcome to HealthCalendar</h1>
+                <p class="text-muted">Book and manage appointments for patients and clients.</p>
+                <div class="d-flex gap-2 flex-wrap">
+                    <a class="btn btn-primary" asp-controller="Event" asp-action="Index">Browse Appointments</a>
+                    <a class="btn btn-outline-primary" asp-controller="WorkerAvailability" asp-action="Index">Check Availability</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-4">
+            @* Optional: carousel (layout keeps Bootstrap ready); pure frontend *@
+            <partial name="_Carousel" />
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h2 class="h5">Quick links</h2>
+                <ul class="list-unstyled mb-0">
+                    <li><a asp-controller="Patient" asp-action="Index">Patients</a></li>
+                    <li><a asp-controller="Worker" asp-action="Index">Workers</a></li>
+                    <li><a asp-controller="Event" asp-action="Index">All Appointments</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+@model IEnumerable<HealthCalendar.Models.Event>
+@{
+    ViewBag.Title = "Appointments";
+    var query = Context.Request.Query["q"].ToString();
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h4 mb-0">Appointments</h1>
+    <div>
+        <a class="btn btn-primary" asp-controller="Event" asp-action="Create">Book Appointment</a>
+    </div>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <form class="row g-2 mb-3" method="get">
+            <div class="col-sm-6 col-md-4">
+                <input class="form-control" type="search" name="q" value="@query" placeholder="Search by title / patient / worker" />
+            </div>
+            <div class="col-auto">
+                <button class="btn btn-outline-secondary" type="submit">Filter</button>
+            </div>
+        </form>
+
+        <partial name="_EventTable" model="Model" />
+    </div>
+</div>

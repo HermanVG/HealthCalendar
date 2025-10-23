@@ -1,0 +1,37 @@
+@model HealthCalendar.Models.Event
+@functions{
+    string GetStr(object m, params string[] names)
+    {
+        if (m == null) return "";
+        var t = m.GetType();
+        foreach (var n in names)
+        {
+            var p = t.GetProperty(n);
+            if (p != null)
+            {
+                var v = p.GetValue(m);
+                if (v is DateTime dt)   return dt.ToString("yyyy-MM-dd HH:mm");
+                if (v is DateOnly d)    return d.ToString("yyyy-MM-dd");
+                if (v is TimeOnly to)   return to.ToString("HH\\:mm");
+                return v?.ToString() ?? "";
+            }
+        }
+        return "";
+    }
+}
+
+
+<tr>
+    <td class="text-nowrap">@GetStr(Model, "Date")</td>
+    <td class="text-nowrap">@GetStr(Model, "Start")</td>
+    <td class="text-nowrap">@GetStr(Model, "End")</td>
+    <td class="text-truncate">@GetStr(Model, "Location")</td>
+    <td class="text-truncate">@GetStr(Model, "Description")</td>
+    <td>@GetStr(Model, "PatientId")</td>
+    <td class="text-end">
+        <a class="btn btn-sm btn-outline-primary"
+           asp-controller="Event" asp-action="Details"
+           asp-route-id="@GetStr(Model, "EventId")">Details</a>
+    </td>
+</tr>
+

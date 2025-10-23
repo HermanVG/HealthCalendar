@@ -1,0 +1,59 @@
+@model HealthCalendar.Models.Event
+@{
+    ViewBag.Title = "Book Appointment";
+}
+
+<h1 class="h4 mb-3">Book Appointment</h1>
+
+<div class="card shadow-sm">
+  <div class="card-body">
+    <form asp-action="Create" asp-controller="Event" method="post">
+      <div class="row g-3">
+        <div class="col-md-4">
+          <label asp-for="Date" class="form-label"></label>
+          <input asp-for="Date" class="form-control" type="date" />
+          <span asp-validation-for="Date" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-4">
+          <label asp-for="Start" class="form-label"></label>
+          <input asp-for="Start" class="form-control" type="time" />
+          <span asp-validation-for="Start" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-4">
+          <label asp-for="End" class="form-label"></label>
+          <input asp-for="End" class="form-control" type="time" />
+          <span asp-validation-for="End" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-6">
+          <label asp-for="Location" class="form-label"></label>
+          <input asp-for="Location" class="form-control" />
+          <span asp-validation-for="Location" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-6">
+          <label asp-for="PatientId" class="form-label"></label>
+          <input asp-for="PatientId" class="form-control" />
+          <span asp-validation-for="PatientId" class="text-danger"></span>
+        </div>
+
+        <div class="col-12">
+          <label asp-for="Description" class="form-label"></label>
+          <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+          <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+      </div>
+
+      <div class="mt-4 d-flex gap-2">
+        <button type="submit" class="btn btn-primary">Save</button>
+        <a class="btn btn-outline-secondary" asp-controller="Event" asp-action="Index">Cancel</a>
+      </div>
+    </form>
+  </div>
+</div>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+}
