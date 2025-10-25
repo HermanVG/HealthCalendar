@@ -1,1 +1,38 @@
-<h1>patient</>
+@model LoginViewModel
+
+@{
+	ViewData["Title"] = "Log In as Private Person";
+}
+
+<div class="container py-5">
+	<div class="row justify-content-center">
+		<div class="col-md-6 col-lg-5">
+			<div class="card shadow-sm">
+				<div class="card-body">
+					<h2 class="card-title text-center mb-4">Log In as Private Person</h2>
+					<form asp-action="Login" asp-controller="Patient" method="post" novalidate>
+						<div class="mb-3">
+							<label asp-for="Email" class="form-label"></label>
+							<input asp-for="Email" class="form-control" />
+							<span asp-validation-for="Email" class="text-danger"></span>
+						</div>
+						<div class="mb-3">
+							<label asp-for="Password" class="form-label"></label>
+							<input asp-for="Password" class="form-control" type="password" />
+							<span asp-validation-for="Password" class="text-danger"></span>
+						</div>
+						<div class="d-grid gap-2 mb-2">
+							<button type="submit" class="btn btn-primary">Log In</button>
+						</div>
+						<div class="d-grid gap-2">
+							<a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary">Go Back</a>
+						</div>
+						<div class="mt-3">
+							<span asp-validation-summary="All" class="text-danger"></span>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
