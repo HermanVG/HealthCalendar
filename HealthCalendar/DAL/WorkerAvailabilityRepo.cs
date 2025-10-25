@@ -16,7 +16,56 @@ public class WorkerAvailabilityRepo : IWorkerAvailabilityRepo
         _logger = logger;
     }
 
-    public async Task<(WorkerAvailability?, RepoStatus)> GetTimestampAvailability(int availabilityId)
+    public async Task<(List<WorkerAvailability>, RepoStatus)> GetAvailability(int workerId)
+    {
+        try
+        {
+            List<WorkerAvailability> availability = await _database.WorkerAvailability
+                .Where(wA => wA.WorkerId == workerId)
+                .ToListAsync();
+            return (availability, RepoStatus.Success);
+        }
+        catch (Exception e)
+        {
+            _logger.LogError("[WorkerAvailabilityRepo] GetAvailability() failed " +
+                            $"when ToListAsync() was called, error message: {e.Message}");
+            return ([], RepoStatus.Error);
+        }
+    }
+
+    public async Task<RepoStatus> AddAvailability(WorkerAvailability timestampAvailability)
+    {
+        try
+        {
+            _database.WorkerAvailability.Add(timestampAvailability);
+            await _database.SaveChangesAsync();
+            return RepoStatus.Success;
+        }
+        catch (Exception e)
+        {
+            _logger.LogError("[WorkerAvailabilityRepo] AddDate() failed to create new " +
+                            $"availableDate {@timestampAvailability}, this is the error message: {e.Message}");
+            return RepoStatus.Error;
+        }
+    }
+
+    public async Task<RepoStatus> DeleteAvailability(WorkerAvailability timestampAvailability)
+    {
+        try
+        {
+            _database.WorkerAvailability.Remove(timestampAvailability);
+            await _database.SaveChangesAsync();
+            return RepoStatus.Success;
+        }
+        catch (Exception e)
+        {
+            _logger.LogError("[WorkerAvailabilityRepo] DeleteTimestampAvailability() failed to remove " +
+                            $"TimestampAvailability {@timestampAvailability} from database, error message: {e.Message}");
+            return RepoStatus.Error;
+        }
+    }
+    
+    /*public async Task<(WorkerAvailability?, RepoStatus)> GetTimestampAvailability(int availabilityId)
     {
         try
         {
@@ -35,27 +84,9 @@ public class WorkerAvailabilityRepo : IWorkerAvailabilityRepo
                             $"when FindAsync() was called, error message: {e.Message}");
             return (null, RepoStatus.Error);
         }
-    }
+    }*/
 
-
-    public async Task<(List<WorkerAvailability>, RepoStatus)> GetAvailability(int workerId)
-    {
-        try
-        {
-            List<WorkerAvailability> availability = await _database.WorkerAvailability
-                .Where(wA => wA.WorkerId == workerId)
-                .ToListAsync();
-            return (availability, RepoStatus.Success);
-        }
-        catch (Exception e)
-        {
-            _logger.LogError("[WorkerAvailabilityRepo] GetAvailability() failed " +
-                            $"when ToListAsync() was called, error message: {e.Message}");
-            return ([], RepoStatus.Error);
-        }
-    }
-
-    public async Task<(List<WorkerAvailability>?, RepoStatus)> GetDateAvailability(int workerId, DateOnly date)
+        /*public async Task<(List<WorkerAvailability>?, RepoStatus)> GetDateAvailability(int workerId, DateOnly date)
     {
         try
         {
@@ -70,9 +101,9 @@ public class WorkerAvailabilityRepo : IWorkerAvailabilityRepo
                             $"when ToListAsync() was called, error message: {e.Message}");
             return ([], RepoStatus.Error);
         }
-    }
+    }*/
 
-    public async Task<(List<WorkerAvailability>, RepoStatus)> GetMonthAvailability(int workerId, DateOnly date)
+    /*public async Task<(List<WorkerAvailability>, RepoStatus)> GetMonthAvailability(int workerId, DateOnly date)
     {
         try
         {
@@ -87,25 +118,9 @@ public class WorkerAvailabilityRepo : IWorkerAvailabilityRepo
                             $"when ToListAsync() was called, error message: {e.Message}");
             return ([], RepoStatus.Error);
         }
-    }
+    }*/
 
-    public async Task<RepoStatus> AddTimestampAvailability(WorkerAvailability timestampAvailability)
-    {
-        try
-        {
-            _database.WorkerAvailability.Add(timestampAvailability);
-            await _database.SaveChangesAsync();
-            return RepoStatus.Success;
-        }
-        catch (Exception e)
-        {
-            _logger.LogError("[WorkerAvailabilityRepo] AddDate() failed to create new " +
-                            $"availableDate {@timestampAvailability}, this is the error message: {e.Message}");
-            return RepoStatus.Error;
-        }
-    }
-
-    public async Task<RepoStatus> UpdateTimestampAvailability(WorkerAvailability timestampAvailability)
+    /*public async Task<RepoStatus> UpdateTimestampAvailability(WorkerAvailability timestampAvailability)
     {
         try
         {
@@ -119,21 +134,5 @@ public class WorkerAvailabilityRepo : IWorkerAvailabilityRepo
                             $"TimestampAvailability to {@timestampAvailability}, error message: {e.Message}");
             return RepoStatus.Error;
         }
-    }
-    
-    public async Task<RepoStatus> DeleteTimestampAvailability(WorkerAvailability timestampAvailability)
-    {
-        try
-        {
-            _database.WorkerAvailability.Remove(timestampAvailability);
-            await _database.SaveChangesAsync();
-            return RepoStatus.Success;
-        }
-        catch (Exception e)
-        {
-            _logger.LogError("[WorkerAvailabilityRepo] DeleteTimestampAvailability() failed to remove " +
-                            $"TimestampAvailability {@timestampAvailability} from database, error message: {e.Message}");
-            return RepoStatus.Error;
-        }
-    }
+    }*/
 }
