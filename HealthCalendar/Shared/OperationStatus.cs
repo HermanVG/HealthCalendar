@@ -6,6 +6,7 @@ namespace HealthCalendar.Shared
         Success,
         Error,
         Unauthorized,
-        NotFound
+        NotFound,
+        NotAcceptable
     }
 }
