@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using HealthCalendar.DAL;
 using Serilog;
 using Serilog.Events;
+using HealthCalendar.Services;
 //using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,6 +21,8 @@ builder.Services.AddScoped<IWorkerAvailabilityRepo, WorkerAvailabilityRepo>();
 builder.Services.AddScoped<IWorkerRepo, WorkerRepo>();
 builder.Services.AddScoped<IPatientRepo, PatientRepo>();
 builder.Services.AddScoped<IEventRepo, EventRepo>();
+
+builder.Services.AddScoped<IEventService, EventService>();
 
 // builder.Services.AddRazorPages();
 // builder.Services.AddSession();
