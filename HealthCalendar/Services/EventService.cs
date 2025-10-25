@@ -17,6 +17,30 @@ public class EventService : IEventService
         _patientRepo = patientRepo;
     }
 
+    public async Task<OperationStatus> AddEvent(Event eventt)
+    {
+        try
+        {
+            OperationStatus validationStatus = await ValidateEvent(eventt);
+
+            if (validationStatus == OperationStatus.Success)
+                return await _eventRepo.AddEvent(eventt);
+            else if (validationStatus == OperationStatus.NotAcceptable)
+                return OperationStatus.NotAcceptable;
+
+            _logger.LogError("[PatientService] Something went wrong when " +
+                            $"ValidateEvent() with parameter eventt = {@eventt} " +
+                            $"was called.");
+            return OperationStatus.Error;
+        }
+        catch (Exception e)
+        {
+            _logger.LogError("[PatientService] AddEvent() failed to add " +
+                            $"Event {@eventt} into database, error message: {e.Message}");
+            return OperationStatus.Error;
+        }
+    }
+
     public async Task<OperationStatus> UpdateEvent(Event eventt)
     {
         try
@@ -27,8 +51,8 @@ public class EventService : IEventService
                 return await _eventRepo.UpdateEvent(eventt);
             else if (validationStatus == OperationStatus.NotAcceptable)
                 return OperationStatus.NotAcceptable;
-            
-            _logger.LogError("[PatientService] Something went wrong with " +
+
+            _logger.LogError("[PatientService] Something went wrong when " +
                             $"ValidateEvent() with parameter eventt = {@eventt} " +
                             $"was called.");
             return OperationStatus.Error;

@@ -8,6 +8,6 @@ public interface IEventService
 {
     //Task<(List<Event>?, OperationStatus)> GetAssignedEvents(int workerId);
     //Task<(Event, List<WorkerAvailability>, OperationStatus)> UpdateEvent(int eventId, int workerId);
-    //Task<OperationStatus> AddEvent(Event eventt);
+    Task<OperationStatus> AddEvent(Event eventt);
     Task<OperationStatus> UpdateEvent(Event eventt);
 }
