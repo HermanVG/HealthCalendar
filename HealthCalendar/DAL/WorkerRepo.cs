@@ -1,5 +1,6 @@
 using System;
 using HealthCalendar.Models;
+using HealthCalendar.Shared;
 using Microsoft.EntityFrameworkCore;
 
 namespace HealthCalendar.DAL;
@@ -15,7 +16,7 @@ public class WorkerRepo : IWorkerRepo
         _logger = logger;
     }
 
-    public async Task<(Worker?, RepoStatus)> GetWorkerByEmail(String email)
+    public async Task<(Worker?, OperationStatus)> GetWorkerByEmail(String email)
     {
         try
         {
@@ -24,20 +25,20 @@ public class WorkerRepo : IWorkerRepo
             {
                 _logger.LogInformation("[WorkerRepo] GetWorkerLogin() could not find " +
                                       $"Worker with Email = {email}");
-                return (null, RepoStatus.NotFound);
+                return (null, OperationStatus.NotFound);
             }
 
-            return (worker, RepoStatus.Success);
+            return (worker, OperationStatus.Success);
         }
         catch (Exception e)
         {
             _logger.LogError("[WorkerRepo] GetWorkerLogin() failed " +
                             $"when SingleAsync() was called, error message: {e.Message}");
-            return (null, RepoStatus.Error);
+            return (null, OperationStatus.Error);
         }
     }
 
-    /*public async Task<(Worker?, RepoStatus)> GetWorker(int workerId)
+    /*public async Task<(Worker?, OperationStatus)> GetWorker(int workerId)
     {
         try
         {
@@ -46,51 +47,51 @@ public class WorkerRepo : IWorkerRepo
             {
                 _logger.LogWarning("[WorkerRepo] GetWorker() Worker with  " +
                                   $"WorkerId = {workerId} was not found.");
-                return (null, RepoStatus.NotFound);
+                return (null, OperationStatus.NotFound);
             }
             worker.Password = "";
-            return (worker, RepoStatus.Success);
+            return (worker, OperationStatus.Success);
         }
         catch (Exception e)
         {
             _logger.LogError("[WorkerRepo] GetWorker() failed " +
                             $"when FindAsync() was called, error message: {e.Message}");
-            return (null, RepoStatus.Error);
+            return (null, OperationStatus.Error);
         }
     }*/
 
-    /*public async Task<(List<String>, RepoStatus)> GetAllWorkerEmails()
+    /*public async Task<(List<String>, OperationStatus)> GetAllWorkerEmails()
     {
         try
         {
             List<String> emails = await _database.Workers.Select(w => w.Email).ToListAsync();
-            return (emails, RepoStatus.Success);
+            return (emails, OperationStatus.Success);
         }
         catch (Exception e)
         {
             _logger.LogError("[WorkerRepo] GetAllWorkerEmails() failed " +
                             $"when ToListAsync() was called, error message: {e.Message}");
-            return ([], RepoStatus.Error);
+            return ([], OperationStatus.Error);
         }
     }*/
 
-    /*public async Task<RepoStatus> RegisterWorker(Worker worker)
+    /*public async Task<OperationStatus> RegisterWorker(Worker worker)
     {
         try
         {
             _database.Workers.Add(worker);
             await _database.SaveChangesAsync();
-            return RepoStatus.Success;
+            return OperationStatus.Success;
         }
         catch (Exception e)
         {
             _logger.LogError("[WorkerRepo] RegisterWorker() failed to create new " +
                             $"Worker {@worker}, error message: {e.Message}");
-            return RepoStatus.Error;
+            return OperationStatus.Error;
         }
     }*/
 
-    /*public async Task<RepoStatus> UpdateLastLogin(int workerId, DateTime loginTimestamp)
+    /*public async Task<OperationStatus> UpdateLastLogin(int workerId, DateTime loginTimestamp)
     {
         try
         {
@@ -98,13 +99,13 @@ public class WorkerRepo : IWorkerRepo
                 .Where(w => w.WorkerId == workerId)
                 .ExecuteUpdate(db => db.SetProperty(w => w.LastLogin, loginTimestamp));
             await _database.SaveChangesAsync();
-            return RepoStatus.Success;
+            return OperationStatus.Success;
         }
         catch (Exception e)
         {
             _logger.LogError("[WorkerRepo] UpdateLastLogin() failed to update LastLogin of Worker with " + 
                             $"WorkerId = {workerId} to {@loginTimestamp}, error message: {e.Message}");
-            return (RepoStatus.Error);
+            return (OperationStatus.Error);
         }
     }*/
 
