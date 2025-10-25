@@ -38,9 +38,10 @@ public class EventService : IEventService
 
                     if (eventOperationStatus == OperationStatus.Error || events == null)
                     {
-                        _logger.LogError("[PatientService] Something went wrong when " +
-                                         "GetEvents() with parameter patientId = " +
-                                        $"{patient.PatientId} was called.");
+                        _logger.LogError("[PatientService] Something Something went " +
+                                         "wrong in EventRepo when when GetEvents() " +
+                                        $"with parameter patientId = {patient.PatientId} " +
+                                         "was called.");
                     }
                     else events.ForEach(e => assignedEvents.Add(e));
                 }
@@ -50,7 +51,7 @@ public class EventService : IEventService
 
             if (patientOperationStatus == OperationStatus.NotFound) return ([], [], OperationStatus.NotFound);
 
-            _logger.LogError("[PatientService] Something went wrong when " +
+            _logger.LogError("[PatientService] Something went wrong in PatientRepo when " +
                             $"GetAssignedPatients() with parameter workerId = {workerId} " +
                              "was called.");
             return ([], [], OperationStatus.Error);
@@ -58,9 +59,33 @@ public class EventService : IEventService
         catch (Exception e)
         {
             _logger.LogError("[PatientService] GetAssignedEvents() failed to get " +
-                             "Events afrom Patients assigned to Worker with " +
+                             "Events from Patients assigned to Worker with " +
                             $"WorkerId = {workerId}, error message: {e.Message}");
             return ([], [], OperationStatus.Error);
+        }
+    }
+
+
+    public async Task<(List<WorkerAvailability>?, OperationStatus)> AddEvent(int workerId)
+    {
+        try
+        {
+            (List<WorkerAvailability>? availability, OperationStatus operationStatus) =
+                await _availabilityRepo.GetAvailability(workerId);
+
+            if (operationStatus == OperationStatus.Success) return (availability, OperationStatus.Success);
+            
+            _logger.LogError("[PatientService] Something went wrong in WorkerAvailabilityRepo " +
+                             "when when GetEvents() GetAvailability() with parameter workerId = " +
+                            $"{workerId} was called.");
+            return ([], OperationStatus.Error);
+        }
+        catch (Exception e)
+        {
+            _logger.LogError("[PatientService] AddEvent() failed to get " +
+                             "WorkerAvailability from Worker with WorkerId = " +
+                            $"{workerId}, error message: {e.Message}");
+            return ([], OperationStatus.Error);
         }
     }
 
@@ -139,7 +164,7 @@ public class EventService : IEventService
                 return OperationStatus.Success;
             }
 
-            _logger.LogError("[PatientService] Something went wrong in" +
+            _logger.LogError("[PatientService] Something went wrong in " +
                              "EventRepo when GetEvents() with parameters " +
                             $"patientId = {patientId} and date = {date} was called.");
             return OperationStatus.Error;
