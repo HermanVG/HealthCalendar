@@ -1,32 +1,45 @@
+<!--
+    _Layout.cshtml: Shared layout for all pages in HealthCalendar
+    - Loads Bootstrap 5 for styling and responsive layout
+    - Renders a top navigation bar with dynamic links based on authentication
+    - Shows TempData alerts for status messages
+    - Renders the main page content with RenderBody()
+    - Loads Bootstrap JS at the end of the body
+-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - HealthCalendar</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /> 
+    <title>@ViewData["Title"] - HealthCalendar</title> 
 
-    <!-- Bootstrap CSS -->
+    <!-- Bootstrap CSS for all pages -->
     <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.min.css" />
-    
 </head>
 <body>
+    <!-- Top navigation bar for all pages -->
     <header>
         <nav class="navbar navbar-expand-sm navbar-light bg-light border-bottom mb-3">
             <div class="container">
+                <!-- Links to home -->
                 <a class="navbar-brand" asp-controller="Home" asp-action="Index">HealthCalendar</a>
+                <!-- Hamburger menu for mobile view -->
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
+                <!-- Collapsible navigation links -->
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-sm-0">
+                        <!-- Home link, always visible -->
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
 
+                        @* Show different links based on authentication and role *@
                         @if (User.Identity?.IsAuthenticated == true)
                         {
-                            @* For Patient users *@
+                            // If the user is logged in and is a Patient, show "My Events"
                             if (User.IsInRole("Patient"))
                             {
                                 <li class="nav-item">
@@ -34,7 +47,7 @@
                                 </li>
                             }
 
-                            @* Logout button *@
+                            // Show logout button for all authenticated users
                             <li class="nav-item">
                                 <form class="d-inline" asp-controller="Patient" asp-action="Logout" method="post">
                                     <button type="submit" class="btn btn-link nav-link text-dark">Logout</button>
@@ -43,6 +56,7 @@
                         }
                         else
                         {
+                            <!-- Show login links for unauthenticated users -->
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-controller="Patient" asp-action="Login">Patient Login</a>
                             </li>
@@ -56,24 +70,25 @@
         </nav>
     </header>
 
+    <!-- Main content container for all pages -->
     <div class="container">
         <main role="main" class="pb-3">
-            @* TempData alerts *@
+            @* Show status messages from TempData, if any *@
             @if (TempData["Message"] != null)
             {
                 <div class="alert @(TempData["AlertType"] ?? "alert-info")" role="alert">
-                    @TempData["Message"]
+                    @TempData["Message"] <!-- One-time alert message -->
                 </div>
             }
 
-            @RenderBody()
+            @RenderBody() <!-- Render the view's main content here -->
         </main>
     </div>
 
-    <!-- Bootstrap JS Bundle -->
+    <!-- Bootstrap JS Bundle for interactive Bootstrap components -->
     <script src="~/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-
+    @* Optional section for page-specific scripts, if needed *@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
