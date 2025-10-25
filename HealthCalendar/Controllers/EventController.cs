@@ -30,3 +30,5 @@ public async Task<(List<Event>?, RepoStatus)> GetEventsForWeek(List<Event> month
     }
 }
 */
+
+//Hun har ingen anelse hva hun holder på med!

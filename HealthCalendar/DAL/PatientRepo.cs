@@ -39,22 +39,7 @@ public class PatientRepo : IPatientRepo
         }
     }
 
-    public async Task<(List<String>, RepoStatus)> GetAllPatientEmails()
-    {
-        try
-        {
-            List<String> emails = await _database.Patients.Select(p => p.Email).ToListAsync();
-            return (emails, RepoStatus.Success);
-        }
-        catch (Exception e)
-        {
-            _logger.LogError("[PatientRepo] GetAllPatientEmails() failed " +
-                            $"when ToListAsync() was called, error message: {e.Message}");
-            return ([], RepoStatus.Error);
-        }
-    }
-
-    public async Task<(Patient?, RepoStatus)> GetPatientLogin(String email, String hash)
+    public async Task<(Patient?, RepoStatus)> GetPatientByEmail(String email)
     {
         try
         {
@@ -64,12 +49,6 @@ public class PatientRepo : IPatientRepo
                 _logger.LogInformation("[PatientRepo] GetPatientLogin() could not find " +
                                       $"Patient with Email = {email}");
                 return (null, RepoStatus.NotFound);
-            }
-            else if (patient.Password == hash)
-            {
-                _logger.LogInformation("[PatientRepo] GetPatientLogin() given password did not match " +
-                                      $"password of patient {email}");
-                return (null, RepoStatus.Unauthorized);
             }
 
             patient.Password = "";
@@ -83,7 +62,7 @@ public class PatientRepo : IPatientRepo
         }
     }
 
-    public async Task<RepoStatus> RegisterPatient(Patient patient)
+    /*public async Task<RepoStatus> RegisterPatient(Patient patient)
     {
         try
         {
@@ -97,5 +76,20 @@ public class PatientRepo : IPatientRepo
                             $"Patient {@patient}, error message: {e.Message}");
             return RepoStatus.Error;
         }
-    }
+    }*/
+
+    /*public async Task<(List<String>, RepoStatus)> GetAllPatientEmails()
+    {
+        try
+        {
+            List<String> emails = await _database.Patients.Select(p => p.Email).ToListAsync();
+            return (emails, RepoStatus.Success);
+        }
+        catch (Exception e)
+        {
+            _logger.LogError("[PatientRepo] GetAllPatientEmails() failed " +
+                            $"when ToListAsync() was called, error message: {e.Message}");
+            return ([], RepoStatus.Error);
+        }
+    }*/
 }

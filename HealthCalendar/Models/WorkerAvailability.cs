@@ -8,8 +8,8 @@ namespace HealthCalendar.Models
         // foreign key
         public int WorkerId { get; set; }
         public DateOnly Date { get; set; }
-        public TimeOnly Start { get; set; }
-        public TimeOnly End { get; set; }
+        //public TimeOnly Start { get; set; }
+        //public TimeOnly End { get; set; }
         // navigation property
         public virtual Worker Worker { get; set; } = default!;
     }

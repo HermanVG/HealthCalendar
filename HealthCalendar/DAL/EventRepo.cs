@@ -35,6 +35,23 @@ public class EventRepo : IEventRepo
         }
     }
 
+    public async Task<(List<Event>?, RepoStatus)> GetEvents(int patientId)
+    {
+        try
+        {
+            List<Event> eventsForDate = await _database.Events
+                .Where(ev => ev.PatientId == patientId)
+                .ToListAsync();
+            return (eventsForDate, RepoStatus.Success);
+        }
+        catch (Exception e)
+        {
+            _logger.LogError("[EventRepo] GetEvents() failed " +
+                            $"when ToListAsync() was called, error message: {e.Message}");
+            return ([], RepoStatus.Error);
+        }
+    }
+
     public async Task<(List<Event>?, RepoStatus)> GetEventsForDate(int patientId, DateOnly date)
     {
         try
@@ -47,40 +64,6 @@ public class EventRepo : IEventRepo
         catch (Exception e)
         {
             _logger.LogError("[EventRepo] GetAssignedPatients() failed " +
-                            $"when ToListAsync() was called, error message: {e.Message}");
-            return ([], RepoStatus.Error);
-        }
-    }
-
-    public async Task<(List<Event>?, RepoStatus)> GetEventsForMonth(int patientId, DateOnly date)
-    {
-        try
-        {
-            List<Event> monthEvents = await _database.Events
-                .Where(ev => ev.PatientId == patientId && ev.Date.Month == date.Month)
-                .ToListAsync();
-            return (monthEvents, RepoStatus.Success);
-        }
-        catch (Exception e)
-        {
-            _logger.LogError("[EventRepo] GetEventsForMonth() failed " +
-                            $"when ToListAsync() was called, error message: {e.Message}");
-            return ([], RepoStatus.Error);
-        }
-    }
-
-    public async Task<(List<Event>?, RepoStatus)> GetNewEvents(int patientId, DateTime lastLogin)
-    {
-        try
-        {
-            List<Event> newEvents = await _database.Events
-                .Where(ev => ev.PatientId == patientId && lastLogin.CompareTo(ev.CreationTimestamp) <= 0)
-                .ToListAsync();
-            return (newEvents, RepoStatus.Success);
-        }
-        catch (Exception e)
-        {
-            _logger.LogError("[EventRepo] getNewEvents() failed " +
                             $"when ToListAsync() was called, error message: {e.Message}");
             return ([], RepoStatus.Error);
         }
@@ -133,4 +116,38 @@ public class EventRepo : IEventRepo
             return RepoStatus.Error;
         }
     }
+
+    /*public async Task<(List<Event>?, RepoStatus)> GetEventsForMonth(int patientId, DateOnly date)
+    {
+        try
+        {
+            List<Event> monthEvents = await _database.Events
+                .Where(ev => ev.PatientId == patientId && ev.Date.Month == date.Month)
+                .ToListAsync();
+            return (monthEvents, RepoStatus.Success);
+        }
+        catch (Exception e)
+        {
+            _logger.LogError("[EventRepo] GetEventsForMonth() failed " +
+                            $"when ToListAsync() was called, error message: {e.Message}");
+            return ([], RepoStatus.Error);
+        }
+    }
+
+    public async Task<(List<Event>?, RepoStatus)> GetNewEvents(int patientId, DateTime lastLogin)
+    {
+        try
+        {
+            List<Event> newEvents = await _database.Events
+                .Where(ev => ev.PatientId == patientId && lastLogin.CompareTo(ev.CreationTimestamp) <= 0)
+                .ToListAsync();
+            return (newEvents, RepoStatus.Success);
+        }
+        catch (Exception e)
+        {
+            _logger.LogError("[EventRepo] getNewEvents() failed " +
+                            $"when ToListAsync() was called, error message: {e.Message}");
+            return ([], RepoStatus.Error);
+        }
+    }*/
 }

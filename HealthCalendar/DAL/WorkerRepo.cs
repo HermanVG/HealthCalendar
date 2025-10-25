@@ -15,7 +15,29 @@ public class WorkerRepo : IWorkerRepo
         _logger = logger;
     }
 
-    public async Task<(Worker?, RepoStatus)> GetWorker(int workerId)
+    public async Task<(Worker?, RepoStatus)> GetWorkerByEmail(String email)
+    {
+        try
+        {
+            Worker? worker = await _database.Workers.Where(w => w.Email == email).SingleAsync();
+            if (worker == null)
+            {
+                _logger.LogInformation("[WorkerRepo] GetWorkerLogin() could not find " +
+                                      $"Worker with Email = {email}");
+                return (null, RepoStatus.NotFound);
+            }
+
+            return (worker, RepoStatus.Success);
+        }
+        catch (Exception e)
+        {
+            _logger.LogError("[WorkerRepo] GetWorkerLogin() failed " +
+                            $"when SingleAsync() was called, error message: {e.Message}");
+            return (null, RepoStatus.Error);
+        }
+    }
+
+    /*public async Task<(Worker?, RepoStatus)> GetWorker(int workerId)
     {
         try
         {
@@ -35,9 +57,9 @@ public class WorkerRepo : IWorkerRepo
                             $"when FindAsync() was called, error message: {e.Message}");
             return (null, RepoStatus.Error);
         }
-    }
+    }*/
 
-    public async Task<(List<String>, RepoStatus)> GetAllWorkerEmails()
+    /*public async Task<(List<String>, RepoStatus)> GetAllWorkerEmails()
     {
         try
         {
@@ -50,38 +72,9 @@ public class WorkerRepo : IWorkerRepo
                             $"when ToListAsync() was called, error message: {e.Message}");
             return ([], RepoStatus.Error);
         }
-    }
+    }*/
 
-    public async Task<(Worker?, RepoStatus)> GetWorkerLogin(String email, String hash)
-    {
-        try
-        {
-            Worker? worker = await _database.Workers.Where(w => w.Email == email).SingleAsync();
-            if (worker == null)
-            {
-                _logger.LogInformation("[WorkerRepo] GetWorkerLogin() could not find " +
-                                      $"Worker with Email = {email}");
-                return (null, RepoStatus.NotFound);
-            }
-            else if (worker.Password != hash)
-            {
-                _logger.LogInformation("[WorkerRepo] GetWorkerLogin() given password did not match " +
-                                      $"password of worker {email}");
-                return (null, RepoStatus.Unauthorized);
-            }
-
-            worker.Password = "";
-            return (worker, RepoStatus.Success);
-        }
-        catch (Exception e)
-        {
-            _logger.LogError("[WorkerRepo] GetWorkerLogin() failed " +
-                            $"when SingleAsync() was called, error message: {e.Message}");
-            return (null, RepoStatus.Error);
-        }
-    }
-
-    public async Task<RepoStatus> RegisterWorker(Worker worker)
+    /*public async Task<RepoStatus> RegisterWorker(Worker worker)
     {
         try
         {
@@ -95,9 +88,9 @@ public class WorkerRepo : IWorkerRepo
                             $"Worker {@worker}, error message: {e.Message}");
             return RepoStatus.Error;
         }
-    }
+    }*/
 
-    public async Task<RepoStatus> UpdateLastLogin(int workerId, DateTime loginTimestamp)
+    /*public async Task<RepoStatus> UpdateLastLogin(int workerId, DateTime loginTimestamp)
     {
         try
         {
@@ -113,6 +106,6 @@ public class WorkerRepo : IWorkerRepo
                             $"WorkerId = {workerId} to {@loginTimestamp}, error message: {e.Message}");
             return (RepoStatus.Error);
         }
-    }
+    }*/
 
 }
