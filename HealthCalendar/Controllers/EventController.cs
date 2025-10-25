@@ -1,34 +1,15 @@
-// Function moved from Repo to Controller, needs to be uncommented and tweaked
+using Microsoft.AspNetCore.Mvc;
 
-/*
-public async Task<(List<Event>?, RepoStatus)> GetEventsForWeek(List<Event> monthEvents, DateOnly date)
+namespace HealthCalendar.Controllers
 {
-    try
-    {
-        int diffFromMonday = ((int)date.DayOfWeek + 6) % 7;
-        DateOnly monday = date.AddDays(-diffFromMonday);
-
-        List<DateOnly> week = new List<DateOnly>();
-        for (int i = 0; i < 7; i++)
-        {
-            week.Add(monday.AddDays(i));
-        }
-
-        List<Event> weekEvents = new List<Event>();
-        foreach (Event eventt in monthEvents)
-        {
-            if (week.Contains(eventt.Date)) weekEvents.Add(eventt);
-        }
-
-        return (weekEvents, RepoStatus.Success);
-    }
-    catch (Exception e)
-    {
-        _logger.LogError("[EventRepo] GetEventsForWeek() failed " +
-                        $"when ToListAsync() was called, error message: {e.Message}");
-        return ([], RepoStatus.Error);
-    }
+	public class EventController : Controller
+	{
+		// Action to show all events for the logged-in patient (no authentication required for now)
+		public IActionResult PatientEvents()
+		{
+			// Normally you would fetch events for the logged-in patient here
+			// For now, just return the view (empty or with test data)
+			return View("~/Views/Event/PatientEvents.cshtml");
+		}
+	}
 }
-*/
-
-//Hun har ingen anelse hva hun holder på med!

@@ -1,0 +1,49 @@
+@using HealthCalendar.Models
+@model IEnumerable<Event>
+
+<!--
+	_EventTable.cshtml
+	- Partial view to render a table of events
+	- Used by PatientEvents.cshtml
+	- Uses Bootstrap 5 table styling
+-->
+
+<table class="table table-striped table-bordered align-middle">
+	<thead class="table-light">
+		<tr>
+			<th>Description</th>
+			<th>Location</th>
+			<th>Date</th>
+			<th>Start</th>
+			<th>End</th>
+			<th style="width: 160px;">Actions</th>
+		</tr>
+	</thead>
+	<tbody>
+		@if (Model != null && Model.Any())
+		{
+			foreach (var evt in Model)
+			{
+				<tr>
+					<td>@evt.Description</td>
+					<td>@evt.Location</td>
+					<td>@evt.Date.ToString("yyyy-MM-dd")</td>
+					<td>@evt.Start.ToString("hh:mm")</td>
+					<td>@evt.End.ToString("hh:mm")</td>
+					<td>
+						<!-- Edit button -->
+						<a asp-controller="Event" asp-action="EditEvent" asp-route-id="@evt.EventId" class="btn btn-sm btn-outline-primary me-2">Edit</a>
+						<!-- Delete button -->
+						<a asp-controller="Event" asp-action="DeleteEvent" asp-route-id="@evt.EventId" class="btn btn-sm btn-outline-danger">Delete</a>
+					</td>
+				</tr>
+			}
+		}
+		else
+		{
+			<tr>
+				<td colspan="6" class="text-center">No events found.</td>
+			</tr>
+		}
+	</tbody>
+</table>
