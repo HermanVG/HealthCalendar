@@ -1,4 +1,4 @@
-@model IEnumerable<DateOnly>
+@model IEnumerable<WorkerAvailability>
 
 @{
     ViewData["Title"] = "Your Availability";
@@ -13,12 +13,12 @@
                     
                     @if (Model != null && Model.Any())
                     {
-                        foreach (var date in Model)
+                        foreach (var availability in Model)
                         {
                             <div class="d-flex justify-content-between align-items-center mb-2">
-                                <span>Date: @date.ToString("dd.MM.yyyy")</span>
+                                <span>Date: @availability.Date.ToString("dd.MM.yyyy")</span>
                                 <form asp-controller="Event" asp-action="DeleteAvailability" method="post" class="d-inline">
-                                    <input type="hidden" name="date" value="@date.ToString("yyyy-MM-dd")" />
+                                    <input type="hidden" name="availabilityId" value="@availability.AvailabilityId" />
                                     <button type="submit" class="btn btn-outline-danger btn-sm">Delete</button>
                                 </form>
                             </div>
