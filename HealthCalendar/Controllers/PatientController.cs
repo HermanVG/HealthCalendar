@@ -12,8 +12,8 @@ public class PatientController : Controller
     public IActionResult Login(LoginViewModel model)
     {
         // TODO: Implement real authentication logic here
-        // For now, always redirect to PatientEvents for demo/testing
-        return RedirectToAction("PatientEvents");
+        // For now, always redirect to EventController's PatientEvents action
+        return RedirectToAction("PatientEvents", "Event");
     }
 
 }

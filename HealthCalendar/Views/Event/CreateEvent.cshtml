@@ -1,0 +1,73 @@
+@model HealthCalendar.ViewModels.EventFormViewModel
+
+@{
+    ViewData["Title"] = "New Event";
+}
+
+<!-- New Event Form for Patient -->
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h2 class="card-title mb-4 text-center">New Event</h2>
+                    <form asp-action="Create" asp-controller="Event" method="post" novalidate>
+                        <!-- Title -->
+                        <div class="mb-3">
+                            <label asp-for="Event.Description" class="form-label">Title</label>
+                            <input asp-for="Event.Description" class="form-control" />
+                            <span asp-validation-for="Event.Description" class="text-danger"></span>
+                        </div>
+                        <!-- Location -->
+                        <div class="mb-3">
+                            <label asp-for="Event.Location" class="form-label">Location</label>
+                            <input asp-for="Event.Location" class="form-control" />
+                            <span asp-validation-for="Event.Location" class="text-danger"></span>
+                        </div>
+                        <!-- Date Dropdown -->
+                        <div class="mb-3">
+                            <label asp-for="Event.Date" class="form-label">Date</label>
+                            <select asp-for="Event.Date" class="form-select">
+                                <option value="">Select date</option>
+                                @foreach (var date in Model.AvailableDates)
+                                {
+                                    <option value="@date">@date.ToString("yyyy-MM-dd")</option>
+                                }
+                            </select>
+                            <span asp-validation-for="Event.Date" class="text-danger"></span>
+                        </div>
+                        <!-- StartTime Dropdown -->
+                        <div class="mb-3">
+                            <label asp-for="Event.Start" class="form-label">Start Time</label>
+                            <select asp-for="Event.Start" class="form-select">
+                                <option value="">Select start time</option>
+                                @for (int h = 8; h <= 16; h++)
+                                {
+                                    <option value="@TimeOnly.FromTimeSpan(new TimeSpan(h,0,0))">@($"{h:00}:00")</option>
+                                }
+                            </select>
+                            <span asp-validation-for="Event.Start" class="text-danger"></span>
+                        </div>
+                        <!-- EndTime Dropdown -->
+                        <div class="mb-3">
+                            <label asp-for="Event.End" class="form-label">End Time</label>
+                            <select asp-for="Event.End" class="form-select">
+                                <option value="">Select end time</option>
+                                @for (int h = 9; h <= 17; h++)
+                                {
+                                    <option value="@TimeOnly.FromTimeSpan(new TimeSpan(h,0,0))">@($"{h:00}:00")</option>
+                                }
+                            </select>
+                            <span asp-validation-for="Event.End" class="text-danger"></span>
+                        </div>
+                        <!-- Buttons -->
+                        <div class="d-flex justify-content-between">
+                            <a asp-controller="Event" asp-action="PatientEvents" class="btn btn-outline-secondary">Cancel</a>
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
