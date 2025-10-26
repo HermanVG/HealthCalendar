@@ -65,5 +65,44 @@ namespace HealthCalendar.Controllers
 			};
 			return View("CreateEvent", model);
 		}
+
+		// GET: Event/WorkerEvents
+		public async Task<IActionResult> WorkerEvents()
+		{
+			if (HttpContext.Session.GetInt32("WorkerId") is not int workerId)
+			{
+				return RedirectToAction("Login", "Worker");
+			}
+
+			var (events, patients, status) = await _eventService.GetAssignedEvents(workerId);
+
+			if (status == Shared.OperationStatus.Success && events != null)
+			{
+				return View(events);
+			}
+			
+			return View(new List<Event>());
+		}
+
+		// GET: Event/RefreshEvents
+		[HttpGet]
+		public IActionResult RefreshEvents()
+		{
+			return RedirectToAction(nameof(WorkerEvents));
+		}
+
+        // GET: Event/WorkerAvailability
+        public IActionResult WorkerAvailability()
+        {
+            // Midlertidig test data
+            var availableDates = new List<DateOnly>
+            {
+                new DateOnly(2025, 10, 25),
+                new DateOnly(2025, 10, 26),
+                new DateOnly(2025, 10, 28)
+            };
+            
+            return View(availableDates);
+        }
 	}
 }

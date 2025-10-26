@@ -1,0 +1,19 @@
+@using HealthCalendar.Models
+@model IEnumerable<Event>
+
+<div class="container py-5">
+	<div class="row mb-4">
+		<div class="col-12 d-flex justify-content-between align-items-center">
+			<h2 class="mb-0">Events assigned to you</h2>
+            <div>
+                <a asp-controller="Event" asp-action="WorkerAvailability" class="btn btn-primary">Your Availability</a>
+                <a asp-controller="Event" asp-action="RefreshEvents" class="btn btn-primary">Get Events</a>
+            </div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-12">
+			@await Html.PartialAsync("_WorkerEventTable", Model)
+		</div>
+	</div>
+</div>

@@ -1,0 +1,37 @@
+@using HealthCalendar.Models
+@model IEnumerable<Event>
+
+<table class="table table-striped table-bordered align-middle">
+	<thead class="table-light">
+		<tr>
+			<th>Patient</th>
+			<th>Description</th>
+			<th>Location</th>
+			<th>Date</th>
+			<th>Start</th>
+			<th>End</th>
+		</tr>
+	</thead>
+	<tbody>
+		@if (Model != null && Model.Any())
+		{
+			foreach (var evt in Model)
+			{
+				<tr>
+					<td>@($"{evt.Patient.FirstName} {evt.Patient.LastName}")</td>
+					<td>@evt.Description</td>
+					<td>@evt.Location</td>
+					<td>@evt.Date.ToString("yyyy-MM-dd")</td>
+					<td>@evt.Start.ToString("hh:mm")</td>
+					<td>@evt.End.ToString("hh:mm")</td>
+				</tr>
+			}
+		}
+		else
+		{
+			<tr>
+				<td colspan="6" class="text-center">No events found.</td>
+			</tr>
+		}
+	</tbody>
+</table>
