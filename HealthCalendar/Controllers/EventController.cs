@@ -84,13 +84,6 @@ namespace HealthCalendar.Controllers
 			return View(new List<Event>());
 		}
 
-		// GET: Event/RefreshEvents
-		[HttpGet]
-		public IActionResult RefreshEvents()
-		{
-			return RedirectToAction(nameof(WorkerEvents));
-		}
-
         // GET: Event/WorkerAvailability
         public IActionResult WorkerAvailability()
         {
