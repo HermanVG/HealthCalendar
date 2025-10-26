@@ -29,7 +29,7 @@ public class UserService : IUserService
                                  "was called.");
                 return (null, OperationStatus.Error);
             }
-            if (operationStatus == OperationStatus.NotFound || patient == null) 
+            if (operationStatus == OperationStatus.NotFound || patient == null)
                 return (null, OperationStatus.NotFound);
 
             OperationStatus validationStatus = ValidatePassword(password, patient.Password);
@@ -41,7 +41,37 @@ public class UserService : IUserService
         }
         catch (Exception e)
         {
-            _logger.LogError("[UserService] PatientLogin() failed to login a Patient " +
+            _logger.LogError("[UserService] PatientLogin() failed to login Patient " +
+                            $"with Email = {email}, error message: {e.Message}");
+            return (null, OperationStatus.Error);
+        }
+    }
+    
+    public async Task<(Worker? worker, OperationStatus)> WorkerLogin(String email, String password)
+    {
+        try
+        {
+            (Worker? worker, OperationStatus operationStatus) = await _workerRepo.GetWorkerByEmail(email);
+            if (operationStatus == OperationStatus.Error)
+            {
+                _logger.LogError("[UserService] Something went wrong when " +
+                                $"GetWorkerByEmail() with parameter email = {email} " +
+                                 "was called.");
+                return (null, OperationStatus.Error);
+            }
+            if (operationStatus == OperationStatus.NotFound || worker == null) 
+                return (null, OperationStatus.NotFound);
+
+            OperationStatus validationStatus = ValidatePassword(password, worker.Password);
+            if (validationStatus == OperationStatus.Success) return (worker, OperationStatus.Success);
+            if (validationStatus == OperationStatus.NotAcceptable) return (null, OperationStatus.NotAcceptable);
+
+            _logger.LogError("[UserService] ValidatePassword() failed to validate password.");
+            return (null, OperationStatus.Error);
+        }
+        catch (Exception e)
+        {
+            _logger.LogError("[UserService] WorkerLogin() failed to login Worker " +
                             $"with Email = {email}, error message: {e.Message}");
             return (null, OperationStatus.Error);
         }
