@@ -1,13 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace HealthCalendar.Controllers
+public class WorkerController : Controller
 {
-	public class WorkerController : Controller
-	{
-		[HttpGet]
-		public IActionResult Login()
-		{
-			return View();
-		}
-	}
+    public IActionResult Login()
+    {
+        return View();
+    }
 }

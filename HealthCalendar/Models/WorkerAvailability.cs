@@ -1,9 +1,11 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 namespace HealthCalendar.Models
 {
     public class WorkerAvailability
     {
         // primary key
+        [Key]
         public int AvailabilityId { get; set; }
         // foreign key
         public int WorkerId { get; set; }

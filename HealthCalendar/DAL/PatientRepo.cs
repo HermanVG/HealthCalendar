@@ -1,6 +1,7 @@
 using System;
 using Castle.Components.DictionaryAdapter.Xml;
 using HealthCalendar.Models;
+using HealthCalendar.Shared;
 using Microsoft.EntityFrameworkCore;
 
 namespace HealthCalendar.DAL;
@@ -15,7 +16,7 @@ public class PatientRepo : IPatientRepo
         _logger = logger;
     }
 
-    public async Task<(List<Patient>?, RepoStatus)> GetAssignedPatients(int workerId)
+    public async Task<(List<Patient>?, OperationStatus)> GetAssignedPatients(int workerId)
     {
         try
         {
@@ -26,20 +27,20 @@ public class PatientRepo : IPatientRepo
             {
                 _logger.LogWarning("[PatientRepo] GetAssignedPatients() Patients related to Worker " +
                                   $"with WorkerId = {workerId} was not found.");
-                return ([], RepoStatus.NotFound);
+                return ([], OperationStatus.NotFound);
             }
             patients.ForEach(p => p.Password = "");
-            return (patients, RepoStatus.Success);
+            return (patients, OperationStatus.Success);
         }
         catch (Exception e)
         {
             _logger.LogError("[PatientRepo] GetAssignedPatients() failed " +
                             $"when ToListAsync() was called, error message: {e.Message}");
-            return ([], RepoStatus.Error);
+            return ([], OperationStatus.Error);
         }
     }
 
-    public async Task<(Patient?, RepoStatus)> GetPatientByEmail(String email)
+    public async Task<(Patient?, OperationStatus)> GetPatientByEmail(String email)
     {
         try
         {
@@ -48,48 +49,48 @@ public class PatientRepo : IPatientRepo
             {
                 _logger.LogInformation("[PatientRepo] GetPatientLogin() could not find " +
                                       $"Patient with Email = {email}");
-                return (null, RepoStatus.NotFound);
+                return (null, OperationStatus.NotFound);
             }
 
             patient.Password = "";
-            return (patient, RepoStatus.Success);
+            return (patient, OperationStatus.Success);
         }
         catch (Exception e)
         {
             _logger.LogError("[PatientRepo] GetPatientLogin() failed " +
                             $"when SingleAsync() was called, error message: {e.Message}");
-            return (null, RepoStatus.Error);
+            return (null, OperationStatus.Error);
         }
     }
 
-    /*public async Task<RepoStatus> RegisterPatient(Patient patient)
+    /*public async Task<OperationStatus> RegisterPatient(Patient patient)
     {
         try
         {
             _database.Patients.Add(patient);
             await _database.SaveChangesAsync();
-            return RepoStatus.Success;
+            return OperationStatus.Success;
         }
         catch (Exception e)
         {
             _logger.LogError("[PatientRepo] RegisterPatient() failed to create new " +
                             $"Patient {@patient}, error message: {e.Message}");
-            return RepoStatus.Error;
+            return OperationStatus.Error;
         }
     }*/
 
-    /*public async Task<(List<String>, RepoStatus)> GetAllPatientEmails()
+    /*public async Task<(List<String>, OperationStatus)> GetAllPatientEmails()
     {
         try
         {
             List<String> emails = await _database.Patients.Select(p => p.Email).ToListAsync();
-            return (emails, RepoStatus.Success);
+            return (emails, OperationStatus.Success);
         }
         catch (Exception e)
         {
             _logger.LogError("[PatientRepo] GetAllPatientEmails() failed " +
                             $"when ToListAsync() was called, error message: {e.Message}");
-            return ([], RepoStatus.Error);
+            return ([], OperationStatus.Error);
         }
     }*/
 }
