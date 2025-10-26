@@ -34,6 +34,14 @@
                                 </li>
                             }
 
+                            @* Workers *@
+                            if (User.IsInRole("Worker"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-controller="Event" asp-action="PatientEvents">Manage Events</a>
+                                </li>
+                            }
+
                             @* Logout button *@
                             <li class="nav-item">
                                 <form class="d-inline" asp-controller="Patient" asp-action="Logout" method="post">
