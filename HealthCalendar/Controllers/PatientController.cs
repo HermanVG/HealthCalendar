@@ -1,19 +1,39 @@
-using HealthCalendar.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using HealthCalendar.Services;
+using HealthCalendar.ViewModels;
+using HealthCalendar.Models;
+using Microsoft.AspNetCore.Http;
 
 public class PatientController : Controller
 {
+    private readonly IUserService _userService;
+
+    public PatientController(IUserService userService)
+    {
+        _userService = userService;
+    }
+
+    [HttpGet]
     public IActionResult Login()
     {
         return View();
     }
 
     [HttpPost]
-    public IActionResult Login(LoginViewModel model)
+    public async Task<IActionResult> Login(LoginViewModel model)
     {
-        // TODO: Implement real authentication logic here
-        // For now, always redirect to EventController's PatientEvents action
-        return RedirectToAction("PatientEvents", "Event");
-    }
+        if (!ModelState.IsValid)
+            return View(model);
 
+    var (patient, status) = await _userService.PatientLogin(model.Email ?? "", model.Password ?? "");
+
+        if (status == HealthCalendar.Shared.OperationStatus.Success && patient != null)
+        {
+            HttpContext.Session.SetInt32("PatientId", patient.PatientId);
+            return RedirectToAction("PatientEvents", "Event");
+        }
+
+        ModelState.AddModelError("", "Invalid email or password.");
+        return View(model);
+    }
 }
