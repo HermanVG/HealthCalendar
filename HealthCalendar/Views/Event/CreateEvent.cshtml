@@ -6,6 +6,18 @@
 
 <!-- New Event Form for Patient -->
 <div class="container py-5">
+    @if (!ViewData.ModelState.IsValid || ViewData.ModelState.ErrorCount > 0)
+    {
+        <div class="alert alert-danger">
+            <strong>Could not create event:</strong>
+            <ul>
+                @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                {
+                    <li>@error.ErrorMessage</li>
+                }
+            </ul>
+        </div>
+    }
     <div class="row justify-content-center">
         <div class="col-md-8 col-lg-6">
             <div class="card shadow-sm">

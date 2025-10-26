@@ -19,10 +19,35 @@ namespace HealthCalendar.Controllers
 		   [ValidateAntiForgeryToken]
 		   public async Task<IActionResult> Create(HealthCalendar.ViewModels.EventFormViewModel model)
 		   {
+
+			   // Ekstra validering: Start < End
+			   if (model.Event.Start >= model.Event.End)
+			   {
+				   // Repopuler AvailableDates fra service hvis validering feiler
+				   if (HttpContext.Session.GetInt32("PatientId") is int pid)
+				   {
+					   var (availability, availStatus) = await _eventService.AddEvent(pid);
+					   model.AvailableDates = availability?.Select(a => a.Date).ToList() ?? new List<DateOnly>();
+				   }
+				   else
+				   {
+					   model.AvailableDates = new List<DateOnly>();
+				   }
+				   return View("CreateEvent", model);
+			   }
+
 			   if (!ModelState.IsValid)
 			   {
-				   // Repopulate AvailableDates if validation fails
-				   model.AvailableDates = new List<DateOnly> { DateOnly.FromDateTime(DateTime.Today), DateOnly.FromDateTime(DateTime.Today.AddDays(1)) };
+				   // Repopuler AvailableDates fra service hvis validering feiler
+				   if (HttpContext.Session.GetInt32("PatientId") is int pid)
+				   {
+					   var (availability, availStatus) = await _eventService.AddEvent(pid);
+					   model.AvailableDates = availability?.Select(a => a.Date).ToList() ?? new List<DateOnly>();
+				   }
+				   else
+				   {
+					   model.AvailableDates = new List<DateOnly>();
+				   }
 				   return View("CreateEvent", model);
 			   }
 
@@ -36,11 +61,21 @@ namespace HealthCalendar.Controllers
 			   var status = await _eventService.AddEvent(model.Event);
 			   if (status == HealthCalendar.Shared.OperationStatus.Success)
 			   {
+				   TempData["SuccessMessage"] = "Event created successfully!";
 				   return RedirectToAction("PatientEvents");
 			   }
 
-			   ModelState.AddModelError("", "Could not create event. Please try again.");
-			   model.AvailableDates = new List<DateOnly> { DateOnly.FromDateTime(DateTime.Today), DateOnly.FromDateTime(DateTime.Today.AddDays(1)) };
+			   ModelState.AddModelError("", "Could not create event. Start time must be before end time, and there must be no overlap with existing events.");
+			   // Hent tilgjengelige datoer fra service også ved lagringsfeil
+			   if (HttpContext.Session.GetInt32("PatientId") is int patientIdForDates)
+			   {
+				   var (availability, availStatus) = await _eventService.AddEvent(patientIdForDates);
+				   model.AvailableDates = availability?.Select(a => a.Date).ToList() ?? new List<DateOnly>();
+			   }
+			   else
+			   {
+				   model.AvailableDates = new List<DateOnly>();
+			   }
 			   return View("CreateEvent", model);
 		   }
 		private readonly IEventService _eventService;
@@ -61,15 +96,15 @@ namespace HealthCalendar.Controllers
 				return RedirectToAction("Login", "Patient");
 			}
 
-			// Get events for the patient
-			var (events, status) = await _eventService.GetEventsForPatient(patientId);
-			
-			if (status == OperationStatus.Success && events != null)
-			{
-				return View(events);
-			}
-			
-			return View(new List<Event>());
+			   // Get events for the patient
+			   var (events, status) = await _eventService.GetEventsForPatient(patientId);
+
+			   if (status == OperationStatus.Success && events != null)
+			   {
+				   return View(events);
+			   }
+
+			   return View(new List<Event>());
 		}
 
 		// GET: Event/AddEvent

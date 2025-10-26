@@ -179,6 +179,13 @@ namespace HealthCalendar.Services
         {
             try
             {
+                // Sjekk at starttid er før sluttid
+                if (eventt.Start >= eventt.End)
+                {
+                    _logger.LogInformation($"[PatientService] Event {@eventt} is Not Acceptable (start >= end).");
+                    return OperationStatus.NotAcceptable;
+                }
+
                 int patientId = eventt.PatientId;
                 DateOnly date = eventt.Date;
 
@@ -189,12 +196,9 @@ namespace HealthCalendar.Services
                 {
                     foreach (Event existingEvent in existingEvents)
                     {
-                        if (existingEvent.End.CompareTo(eventt.Start) > 0 &&
-                            existingEvent.End.CompareTo(eventt.End) < 0 ||
-                            existingEvent.Start.CompareTo(eventt.End) > 0 &&
-                            existingEvent.Start.CompareTo(eventt.Start) < 0)
+                        if (eventt.Start < existingEvent.End && existingEvent.Start < eventt.End)
                         {
-                            _logger.LogInformation($"[PatientService] Event {@eventt} is Not Acceptable.");
+                            _logger.LogInformation($"[PatientService] Event {@eventt} is Not Acceptable (overlap detected).");
                             return OperationStatus.NotAcceptable;
                         }
                     }

@@ -13,7 +13,7 @@ namespace HealthCalendar.Models
         public TimeOnly Start { get; set; }
         public TimeOnly End { get; set; }
         //public DateTime CreationTimestamp { get; set; }
-        // navigation property
-        public virtual Patient Patient { get; set; } = default!;
+    // navigation property (gjør nullable for å unngå valideringsfeil ved opprettelse)
+    public virtual Patient? Patient { get; set; }
     }
 }
