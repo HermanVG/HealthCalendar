@@ -98,8 +98,8 @@ namespace HealthCalendar.Controllers
 			return View(new List<Event>());
 		}
 
-        // GET: Event/WorkerAvailability
-        public async Task<IActionResult> WorkerAvailability()
+		// GET: Event/WorkerAvailability
+		public async Task<IActionResult> WorkerAvailability()
 		{
 			// Check if worker is logged in
 			if (HttpContext.Session.GetInt32("WorkerId") is not int workerId)
@@ -109,7 +109,7 @@ namespace HealthCalendar.Controllers
 
 			// Get worker availability from repository
 			var (availability, status) = await _availabilityRepo.GetAvailability(workerId);
-			
+
 			if (status == OperationStatus.Success)
 			{
 				// Convert WorkerAvailability objects to list of dates
@@ -119,6 +119,35 @@ namespace HealthCalendar.Controllers
 
 			// If error occurred, return empty list
 			return View(new List<DateOnly>());
+		}
+		
+		// GET: Event/DeleteAvailability
+		// TODO: Mangler logging / error handling på flere av funksjonene her
+		[HttpPost]
+		public async Task<IActionResult> DeleteAvailability(string date)
+		{
+			// Check if worker is logged in
+			if (HttpContext.Session.GetInt32("WorkerId") is not int workerId)
+			{
+				return RedirectToAction("Login", "Worker");
+			}
+
+			// Parse the date string to DateOnly
+			if (!DateOnly.TryParse(date, out DateOnly availabilityDate))
+			{
+				return RedirectToAction(nameof(WorkerAvailability));
+			}
+
+			// Create WorkerAvailability object to delete
+			var availability = new Models.WorkerAvailability
+			{
+				WorkerId = workerId,
+				Date = availabilityDate
+			};
+
+			// Call repo to delete availability
+			await _availabilityRepo.DeleteAvailability(availability);
+			return RedirectToAction(nameof(WorkerAvailability));
 		}
 	}
 }
