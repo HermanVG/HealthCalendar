@@ -7,10 +7,10 @@ namespace HealthCalendar.Services;
 
 public class UserService : IUserService
 {
-    private readonly PatientRepo _patientRepo;
-    private readonly WorkerRepo _workerRepo;
-    private readonly ILogger<EventRepo> _logger;
-    public UserService(PatientRepo patientRepo, WorkerRepo workerRepo, ILogger<EventRepo> logger)
+    private readonly IPatientRepo _patientRepo;
+    private readonly IWorkerRepo _workerRepo;
+    private readonly ILogger<UserService> _logger;
+    public UserService(IPatientRepo patientRepo, IWorkerRepo workerRepo, ILogger<UserService> logger)
     {
         _patientRepo = patientRepo;
         _workerRepo = workerRepo;

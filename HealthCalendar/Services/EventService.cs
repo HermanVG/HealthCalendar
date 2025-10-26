@@ -7,12 +7,12 @@ namespace HealthCalendar.Services;
 
 public class EventService : IEventService
 {
-    private readonly EventRepo _eventRepo;
-    private readonly PatientRepo _patientRepo;
-    private readonly WorkerAvailabilityRepo _availabilityRepo;
-    private readonly ILogger<EventRepo> _logger;
-    public EventService(EventRepo eventRepo, PatientRepo patientRepo,
-                        WorkerAvailabilityRepo availabilityRepo, ILogger<EventRepo> logger)
+    private readonly IEventRepo _eventRepo;
+    private readonly IPatientRepo _patientRepo;
+    private readonly IWorkerAvailabilityRepo _availabilityRepo;
+    private readonly ILogger<EventService> _logger;
+    public EventService(IEventRepo eventRepo, IPatientRepo patientRepo,
+                        IWorkerAvailabilityRepo availabilityRepo, ILogger<EventService> logger)
     {
         _eventRepo = eventRepo;
         _patientRepo = patientRepo;
