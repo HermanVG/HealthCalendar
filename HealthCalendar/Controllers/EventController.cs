@@ -1,31 +1,69 @@
 using Microsoft.AspNetCore.Mvc;
-
-using HealthCalendar.ViewModels;
+using HealthCalendar.Services;
+using HealthCalendar.Models;
+using System.Threading.Tasks;
 using System.Collections.Generic;
-using System;
 
 namespace HealthCalendar.Controllers
 {
 	public class EventController : Controller
 	{
-		// Action to show all events for the logged-in patient (no authentication required for now)
-		public IActionResult PatientEvents()
+		   // (keep only one field and constructor)
+
+		   // (keep only one PatientEvents and AddEvent method)
+
+		   // POST: Event/Create
+		   [HttpPost]
+		   [ValidateAntiForgeryToken]
+		   public async Task<IActionResult> Create(HealthCalendar.ViewModels.EventFormViewModel model)
+		   {
+			   if (!ModelState.IsValid)
+			   {
+				   // Repopulate AvailableDates if validation fails
+				   model.AvailableDates = new List<DateOnly> { DateOnly.FromDateTime(DateTime.Today), DateOnly.FromDateTime(DateTime.Today.AddDays(1)) };
+				   return View("CreateEvent", model);
+			   }
+
+			   // Get patientId from session
+			   if (HttpContext.Session.GetInt32("PatientId") is not int patientId)
+			   {
+				   return RedirectToAction("Login", "Patient");
+			   }
+
+			   model.Event.PatientId = patientId;
+			   var status = await _eventService.AddEvent(model.Event);
+			   if (status == HealthCalendar.Shared.OperationStatus.Success)
+			   {
+				   return RedirectToAction("PatientEvents");
+			   }
+
+			   ModelState.AddModelError("", "Could not create event. Please try again.");
+			   model.AvailableDates = new List<DateOnly> { DateOnly.FromDateTime(DateTime.Today), DateOnly.FromDateTime(DateTime.Today.AddDays(1)) };
+			   return View("CreateEvent", model);
+		   }
+		private readonly IEventService _eventService;
+		public EventController(IEventService eventService)
 		{
-			// Normally you would fetch events for the logged-in patient here
-			// For now, just return the view (empty or with test data)
-			return View("~/Views/Event/PatientEvents.cshtml");
+			_eventService = eventService;
 		}
 
-		// GET: /Event/AddEvent
+		// Viser alle events for en pasient (krever ekte innlogging/session for å hente patientId)
+		public IActionResult PatientEvents()
+		{
+			// TODO: Hent patientId fra session eller brukercontext når innlogging er på plass
+			return View(new List<Event>()); // Midlertidig: returnerer tom liste
+		}
+
+		// GET: Event/AddEvent
 		[HttpGet]
 		public IActionResult AddEvent()
 		{
-			// Dummy available dates for now
-			var model = new EventFormViewModel
+			// Populate with dummy dates for now, or fetch from service if needed
+			var model = new HealthCalendar.ViewModels.EventFormViewModel
 			{
 				AvailableDates = new List<DateOnly> { DateOnly.FromDateTime(DateTime.Today), DateOnly.FromDateTime(DateTime.Today.AddDays(1)) }
 			};
-			return View("~/Views/Event/CreateEvent.cshtml", model);
+			return View("CreateEvent", model);
 		}
 	}
 }

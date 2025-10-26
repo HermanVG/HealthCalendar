@@ -26,7 +26,7 @@ builder.Services.AddScoped<IEventService, EventService>();
 builder.Services.AddScoped<IUserService, UserService>();
 
 // builder.Services.AddRazorPages();
-// builder.Services.AddSession();
+builder.Services.AddSession();
 
 var loggerConfirmation = new LoggerConfiguration()
     .MinimumLevel.Information()
@@ -48,7 +48,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseStaticFiles();
-//app.UseSession();
+app.UseSession();
 //app.UseAuthentication();
 //app.UseAuthorization
 app.MapDefaultControllerRoute();

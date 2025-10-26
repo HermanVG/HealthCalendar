@@ -51,8 +51,6 @@ public class PatientRepo : IPatientRepo
                                       $"Patient with Email = {email}");
                 return (null, OperationStatus.NotFound);
             }
-
-            patient.Password = "";
             return (patient, OperationStatus.Success);
         }
         catch (Exception e)
