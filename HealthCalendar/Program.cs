@@ -23,6 +23,7 @@ builder.Services.AddScoped<IPatientRepo, PatientRepo>();
 builder.Services.AddScoped<IEventRepo, EventRepo>();
 
 builder.Services.AddScoped<IEventService, EventService>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 // builder.Services.AddRazorPages();
 // builder.Services.AddSession();
