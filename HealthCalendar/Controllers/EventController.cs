@@ -162,5 +162,64 @@ namespace HealthCalendar.Controllers
 			await _availabilityRepo.DeleteAvailability(availability);
 			return RedirectToAction(nameof(WorkerAvailability));
 		}
+
+		// GET: Event/EditEvent/{id}
+		[HttpGet]
+		public async Task<IActionResult> EditEvent(int id)
+		{
+			// Sjekk at pasient er innlogget
+			if (HttpContext.Session.GetInt32("PatientId") is not int patientId)
+			{
+				return RedirectToAction("Login", "Patient");
+			}
+
+			// Hent pasientens WorkerId fra pasientobjektet (kan evt. lagres i session)
+			// For enkelhet bruker vi patientId for å hente event og tilgjengelighet
+			// (EventService håndterer dette)
+			var (eventt, availableDates, status) = await _eventService.UpdateEvent(id, patientId);
+			if (status != OperationStatus.Success || eventt == null)
+			{
+				return RedirectToAction("PatientEvents");
+			}
+
+			var model = new HealthCalendar.ViewModels.EventFormViewModel
+			{
+				Event = eventt,
+				AvailableDates = availableDates?.Select(a => a.Date).ToList() ?? new List<DateOnly>()
+			};
+			return View("EditEvent", model);
+		}
+
+
+		// POST: Event/EditEvent/{id}
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> EditEvent(int id, HealthCalendar.ViewModels.EventFormViewModel model)
+		{
+			if (!ModelState.IsValid)
+			{
+				// Repopuler tilgjengelige datoer hvis validering feiler
+				model.AvailableDates = model.AvailableDates ?? new List<DateOnly>();
+				return View("EditEvent", model);
+			}
+
+			// Sjekk at pasient er innlogget
+			if (HttpContext.Session.GetInt32("PatientId") is not int patientId)
+			{
+				return RedirectToAction("Login", "Patient");
+			}
+
+			model.Event.PatientId = patientId;
+			var status = await _eventService.UpdateEvent(model.Event);
+			if (status == OperationStatus.Success)
+			{
+				return RedirectToAction("PatientEvents");
+			}
+
+			ModelState.AddModelError("", "Could not update event. Please try again.");
+			// Repopuler tilgjengelige datoer hvis lagring feiler
+			model.AvailableDates = model.AvailableDates ?? new List<DateOnly>();
+			return View("EditEvent", model);
+		}
 	}
 }

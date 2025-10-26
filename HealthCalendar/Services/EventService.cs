@@ -121,18 +121,18 @@ namespace HealthCalendar.Services
         {
             try
             {
-                (Event? eventt, OperationStatus eventOperationStatus) = await _eventRepo.GetEvent(eventId);
-                if (eventOperationStatus == OperationStatus.Error || eventt != null)
-                {
-                    _logger.LogError("[PatientService] Something went wrong in EventRepo when " +
-                                    $"GetEvent() with parameter eventId = {eventId} " +
-                                     "was called.");
-                    return (null, [], OperationStatus.Error);
-                }
+    				(Event? eventt, OperationStatus eventOperationStatus) = await _eventRepo.GetEvent(eventId);
+    				if (eventOperationStatus == OperationStatus.Error || eventt == null)
+    				{
+    					_logger.LogError("[PatientService] Something went wrong in EventRepo when " +
+    						$"GetEvent() with parameter eventId = {eventId} " +
+    						 "was called.");
+    					return (null, [], OperationStatus.Error);
+    				}
 
                 (List<WorkerAvailability> availability, OperationStatus availabilityOperationStatus) =
                     await _availabilityRepo.GetAvailability(workerId);
-                if (availabilityOperationStatus == OperationStatus.Error || availability != null)
+                if (availabilityOperationStatus == OperationStatus.Error || availability == null)
                 {
                     _logger.LogError("[PatientService] Something went wrong in WorkerAvailabilityRepo " +
                                     $"when GetEvent() with parameter eventId = {eventId} " +
