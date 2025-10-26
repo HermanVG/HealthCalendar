@@ -152,5 +152,27 @@ namespace HealthCalendar.Controllers
 
 			return RedirectToAction(nameof(WorkerAvailability));
 		}
+
+		// GET: Event/AddAvailability
+		[HttpPost]
+		public async Task<IActionResult> AddAvailability(DateTime date)
+		{
+			// Check if worker is logged in
+			var workerId = HttpContext.Session.GetInt32("WorkerId");
+			if (!workerId.HasValue)
+			{
+				return RedirectToAction("Login", "Worker");
+			}
+
+			// Creates availability object with date
+			var availability = new WorkerAvailability
+			{
+				WorkerId = workerId.Value,
+				Date = DateOnly.FromDateTime(date)
+			};
+
+			await _availabilityRepo.AddAvailability(availability);
+			return RedirectToAction("WorkerAvailability");
+		}
 	}
 }

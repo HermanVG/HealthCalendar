@@ -30,10 +30,10 @@
                         
                         <div class="mt-4">
                             <h5>Add new date:</h5>
-                            <div class="input-group mb-3">
-                                <input type="date" class="form-control" />
-                                <button class="btn btn-primary">Add date</button>
-                            </div>
+                            <form asp-controller="Event" asp-action="AddAvailability" method="post" class="input-group mb-3">
+                                <input type="date" name="date" class="form-control" required />
+                                <button type="submit" class="btn btn-primary">Add date</button>
+                            </form>
                         </div>
                     </div>
 
