@@ -25,7 +25,47 @@ public static class DatabaseInit
                     Email = "a@a.com",
                     Password = "a",
                     Phone = 11111111,
-                    WorkerAvailability = new List<WorkerAvailability>{},
+                    WorkerAvailability = new List<WorkerAvailability>
+                    {
+                        new WorkerAvailability
+                        {
+                            WorkerId = 1,
+                            Date = new DateOnly(2025, 10, 26)
+                        },
+                        new WorkerAvailability
+                        {
+                            WorkerId = 1,
+                            Date = new DateOnly(2025, 10, 27)
+                        },
+                        new WorkerAvailability
+                        {
+                            WorkerId = 1,
+                            Date = new DateOnly(2025, 10, 30)
+                        },
+                        new WorkerAvailability
+                        {
+                            WorkerId = 1,
+                            Date = new DateOnly(2025, 10, 31)
+                        }
+                    },
+                    Patients = new List<Patient>{}
+                },
+                new Worker
+                {
+                    WorkerId = 2,
+                    FirstName = "workername",
+                    LastName = "workerlastname",
+                    Email = "b@a.com",
+                    Password = "b",
+                    Phone = 11111111,
+                    WorkerAvailability = new List<WorkerAvailability>
+                    {
+                        new WorkerAvailability
+                        {
+                            WorkerId = 2,
+                            Date = new DateOnly(2025, 10, 31)
+                        }
+                    },
                     Patients = new List<Patient>{}
                 }
             };
@@ -48,6 +88,18 @@ public static class DatabaseInit
                     Phone = 11111111,
                     DateOfBirth = new DateOnly(2000, 1, 1),
                     Events = new List<Event>()
+                },
+                new Patient
+                {
+                    PatientId = 2,
+                    WorkerId = 2,
+                    FirstName = "patientFirstName",
+                    LastName = "patientLastName",
+                    Email = "c@a.com",
+                    Password = "c",
+                    Phone = 11111111,
+                    DateOfBirth = new DateOnly(2000, 1, 1),
+                    Events = new List<Event>()
                 }
             };
             context.AddRange(patients);
@@ -58,8 +110,8 @@ public static class DatabaseInit
         {
             var evt = new List<Event>
             {
-                new Event 
-                { 
+                new Event
+                {
                     EventId = 1,
                     PatientId = 1,
                     Description = "description1",
@@ -68,13 +120,23 @@ public static class DatabaseInit
                     Start = new TimeOnly(9, 0),
                     End = new TimeOnly(10, 0)
                 },
-                new Event 
-                { 
+                new Event
+                {
                     EventId = 2,
                     PatientId = 1,
                     Description = "description2",
                     Location = "location2",
-                    Date = new DateOnly(2024, 10, 27),
+                    Date = new DateOnly(2025, 10, 27),
+                    Start = new TimeOnly(14, 30),
+                    End = new TimeOnly(15, 30)
+                },
+                new Event 
+                { 
+                    EventId = 3,
+                    PatientId = 2,
+                    Description = "description2",
+                    Location = "location2",
+                    Date = new DateOnly(2025, 10, 28),
                     Start = new TimeOnly(14, 30),
                     End = new TimeOnly(15, 30)
                 }

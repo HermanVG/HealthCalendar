@@ -3,6 +3,8 @@ using HealthCalendar.Services;
 using HealthCalendar.Models;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using HealthCalendar.DAL;
+using HealthCalendar.Shared;
 
 namespace HealthCalendar.Controllers
 {
@@ -42,9 +44,12 @@ namespace HealthCalendar.Controllers
 			   return View("CreateEvent", model);
 		   }
 		private readonly IEventService _eventService;
-		public EventController(IEventService eventService)
+		private readonly IWorkerAvailabilityRepo _availabilityRepo;
+
+		public EventController(IEventService eventService, IWorkerAvailabilityRepo availabilityRepo)
 		{
 			_eventService = eventService;
+			_availabilityRepo = availabilityRepo;
 		}
 
 		// Viser alle events for en pasient (krever ekte innlogging/session for å hente patientId)
@@ -56,13 +61,22 @@ namespace HealthCalendar.Controllers
 
 		// GET: Event/AddEvent
 		[HttpGet]
-		public IActionResult AddEvent()
+		public async Task<IActionResult> AddEvent()
 		{
-			// Populate with dummy dates for now, or fetch from service if needed
+			// Check for PatientId in session
+			if (HttpContext.Session.GetInt32("PatientId") is not int patientId)
+			{
+				return RedirectToAction("Login", "Patient");
+			}
+
+			// Get all worker availabilities from db
+			var (availability, status) = await _eventService.AddEvent(patientId);
+			
 			var model = new HealthCalendar.ViewModels.EventFormViewModel
 			{
-				AvailableDates = new List<DateOnly> { DateOnly.FromDateTime(DateTime.Today), DateOnly.FromDateTime(DateTime.Today.AddDays(1)) }
+				AvailableDates = availability?.Select(a => a.Date).ToList() ?? new List<DateOnly>()
 			};
+			
 			return View("CreateEvent", model);
 		}
 
@@ -85,17 +99,26 @@ namespace HealthCalendar.Controllers
 		}
 
         // GET: Event/WorkerAvailability
-        public IActionResult WorkerAvailability()
-        {
-            // Midlertidig test data
-            var availableDates = new List<DateOnly>
-            {
-                new DateOnly(2025, 10, 25),
-                new DateOnly(2025, 10, 26),
-                new DateOnly(2025, 10, 28)
-            };
-            
-            return View(availableDates);
-        }
+        public async Task<IActionResult> WorkerAvailability()
+		{
+			// Check if worker is logged in
+			if (HttpContext.Session.GetInt32("WorkerId") is not int workerId)
+			{
+				return RedirectToAction("Login", "Worker");
+			}
+
+			// Get worker availability from repository
+			var (availability, status) = await _availabilityRepo.GetAvailability(workerId);
+			
+			if (status == OperationStatus.Success)
+			{
+				// Convert WorkerAvailability objects to list of dates
+				var availableDates = availability.Select(a => a.Date).ToList();
+				return View(availableDates);
+			}
+
+			// If error occurred, return empty list
+			return View(new List<DateOnly>());
+		}
 	}
 }
