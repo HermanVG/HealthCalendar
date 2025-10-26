@@ -53,10 +53,23 @@ namespace HealthCalendar.Controllers
 		}
 
 		// Viser alle events for en pasient (krever ekte innlogging/session for å hente patientId)
-		public IActionResult PatientEvents()
+		public async Task<IActionResult> PatientEvents()
 		{
-			// TODO: Hent patientId fra session eller brukercontext når innlogging er på plass
-			return View(new List<Event>()); // Midlertidig: returnerer tom liste
+			// Check if patient is logged in
+			if (HttpContext.Session.GetInt32("PatientId") is not int patientId)
+			{
+				return RedirectToAction("Login", "Patient");
+			}
+
+			// Get events for the patient
+			var (events, status) = await _eventService.GetEventsForPatient(patientId);
+			
+			if (status == OperationStatus.Success && events != null)
+			{
+				return View(events);
+			}
+			
+			return View(new List<Event>());
 		}
 
 		// GET: Event/AddEvent
