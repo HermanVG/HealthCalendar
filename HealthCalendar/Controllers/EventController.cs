@@ -202,8 +202,8 @@ namespace HealthCalendar.Controllers
 			// Creates availability object with date
 			var availability = new WorkerAvailability
 			{
-				WorkerId = workerId,
-				Date = availabilityDate
+				WorkerId = workerId.Value,
+                Date = DateOnly.FromDateTime(date)
 			};
 
 			await _availabilityRepo.AddAvailability(availability);
