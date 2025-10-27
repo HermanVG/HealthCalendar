@@ -151,17 +151,16 @@ namespace HealthCalendar.Services
             }
         }
 
+
         public async Task<OperationStatus> UpdateEvent(Event eventt)
         {
             try
             {
                 OperationStatus validationStatus = await ValidateEvent(eventt);
-
                 if (validationStatus == OperationStatus.Success)
                     return await _eventRepo.UpdateEvent(eventt);
                 if (validationStatus == OperationStatus.NotAcceptable)
                     return OperationStatus.NotAcceptable;
-
                 _logger.LogError("[PatientService] Something went wrong when " +
                                 $"ValidateEvent() with parameter eventt = {@eventt} " +
                                  "was called.");
@@ -171,6 +170,40 @@ namespace HealthCalendar.Services
             {
                 _logger.LogError("[PatientService] UpdateEvent() failed to update " +
                                 $"database with Event {@eventt}, error message: {e.Message}");
+                return OperationStatus.Error;
+            }
+        }
+
+        public async Task<OperationStatus> UpdateEventPartial(Event updatedEvent, Event originalEvent)
+        {
+            try
+            {
+                // Sjekk om tid/dato er endret
+                bool timeChanged =
+                    updatedEvent.Date != originalEvent.Date ||
+                    updatedEvent.Start != originalEvent.Start ||
+                    updatedEvent.End != originalEvent.End;
+
+                if (timeChanged)
+                {
+                    OperationStatus validationStatus = await ValidateEvent(updatedEvent);
+                    if (validationStatus != OperationStatus.Success)
+                        return validationStatus;
+                }
+
+                // Oppdater kun felter som kan endres
+                originalEvent.Description = updatedEvent.Description;
+                originalEvent.Location = updatedEvent.Location;
+                originalEvent.Date = updatedEvent.Date;
+                originalEvent.Start = updatedEvent.Start;
+                originalEvent.End = updatedEvent.End;
+
+                return await _eventRepo.UpdateEvent(originalEvent);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError("[PatientService] UpdateEventPartial() failed to update " +
+                                $"database with Event {@updatedEvent}, error message: {e.Message}");
                 return OperationStatus.Error;
             }
         }

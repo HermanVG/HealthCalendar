@@ -10,10 +10,6 @@ namespace HealthCalendar.Controllers
 {
 	public class EventController : Controller
 	{
-		   // (keep only one field and constructor)
-
-		   // (keep only one PatientEvents and AddEvent method)
-
 		   // POST: Event/Create
 		   [HttpPost]
 		   [ValidateAntiForgeryToken]
@@ -87,16 +83,16 @@ namespace HealthCalendar.Controllers
 			_availabilityRepo = availabilityRepo;
 		}
 
-		// Viser alle events for en pasient (krever ekte innlogging/session for å hente patientId)
+		// Viser alle events for en pasient
 		public async Task<IActionResult> PatientEvents()
 		{
-			// Check if patient is logged in
+			   // Sjekk at pasient er innlogget
 			if (HttpContext.Session.GetInt32("PatientId") is not int patientId)
 			{
 				return RedirectToAction("Login", "Patient");
 			}
 
-			   // Get events for the patient
+			   // Hent events for pasienten
 			   var (events, status) = await _eventService.GetEventsForPatient(patientId);
 
 			   if (status == OperationStatus.Success && events != null)
@@ -111,13 +107,13 @@ namespace HealthCalendar.Controllers
 		[HttpGet]
 		public async Task<IActionResult> AddEvent()
 		{
-			// Check for PatientId in session
+			   // Sjekk at pasient er innlogget
 			if (HttpContext.Session.GetInt32("PatientId") is not int patientId)
 			{
 				return RedirectToAction("Login", "Patient");
 			}
 
-			// Get all worker availabilities from db
+			   // Hent alle tilgjengelige datoer fra service
 			var (availability, status) = await _eventService.AddEvent(patientId);
 			
 			var model = new HealthCalendar.ViewModels.EventFormViewModel
@@ -149,37 +145,36 @@ namespace HealthCalendar.Controllers
 		// GET: Event/WorkerAvailability
 		public async Task<IActionResult> WorkerAvailability()
 		{
-			// Check if worker is logged in
+			   // Sjekk at ansatt er innlogget
 			if (HttpContext.Session.GetInt32("WorkerId") is not int workerId)
 			{
 				return RedirectToAction("Login", "Worker");
 			}
 
-			// Get worker availability from repository
+			   // Hent tilgjengelighet for ansatt
 			var (availability, status) = await _availabilityRepo.GetAvailability(workerId);
 
-			// If success, return availability list
+			   // Returner tilgjengelighet hvis OK
 			if (status == OperationStatus.Success) return View(availability);
 
-			// If error occurred, return empty list
+			   // Returner tom liste ved feil
 			return View(new List<DateOnly>());
 		}
 		
-		// GET: Event/DeleteAvailability
-		// TODO: Mangler logging / error handling på flere av funksjonene her
+		// POST: Event/DeleteAvailability
 		[HttpPost]
 		public async Task<IActionResult> DeleteAvailability(int availabilityId)
 		{
-			// Check if worker is logged in
+			   // Sjekk at ansatt er innlogget
 			if (HttpContext.Session.GetInt32("WorkerId") is not int workerId)
 			{
 				return RedirectToAction("Login", "Worker");
 			}
 
-			// Call repo to get singular availability
+			   // Hent enkelt tilgjengelighetsobjekt
 			var (availability, status) = await _availabilityRepo.GetSignularAvailability(availabilityId);
 
-			// Call repo to delete availability
+			   // Slett tilgjengelighet hvis funnet
 			if (status == OperationStatus.Success && availability != null)
 			{
 				await _availabilityRepo.DeleteAvailability(availability);
@@ -188,18 +183,18 @@ namespace HealthCalendar.Controllers
 			return RedirectToAction(nameof(WorkerAvailability));
 		}
 
-		// GET: Event/AddAvailability
+		// POST: Event/AddAvailability
 		[HttpPost]
 		public async Task<IActionResult> AddAvailability(DateTime date)
 		{
-			// Check if worker is logged in
+			   // Sjekk at ansatt er innlogget
 			var workerId = HttpContext.Session.GetInt32("WorkerId");
 			if (!workerId.HasValue)
 			{
 				return RedirectToAction("Login", "Worker");
 			}
 
-			// Creates availability object with date
+			   // Opprett tilgjengelighetsobjekt
 			var availability = new WorkerAvailability
 			{
 				WorkerId = workerId.Value,
@@ -243,30 +238,79 @@ namespace HealthCalendar.Controllers
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> EditEvent(int id, HealthCalendar.ViewModels.EventFormViewModel model)
 		{
-			if (!ModelState.IsValid)
-			{
-				// Repopuler tilgjengelige datoer hvis validering feiler
-				model.AvailableDates = model.AvailableDates ?? new List<DateOnly>();
-				return View("EditEvent", model);
-			}
 
-			// Sjekk at pasient er innlogget
-			if (HttpContext.Session.GetInt32("PatientId") is not int patientId)
-			{
-				return RedirectToAction("Login", "Patient");
-			}
 
-			model.Event.PatientId = patientId;
-			var status = await _eventService.UpdateEvent(model.Event);
-			if (status == OperationStatus.Success)
-			{
-				return RedirectToAction("PatientEvents");
-			}
+			   if (!ModelState.IsValid)
+			   {
+				   // Repopuler AvailableDates fra service hvis validering feiler
+				   if (HttpContext.Session.GetInt32("PatientId") is int pid)
+				   {
+					   var (availability, availStatus) = await _eventService.AddEvent(pid);
+					   model.AvailableDates = availability?.Select(a => a.Date).ToList() ?? new List<DateOnly>();
+				   }
+				   else
+				   {
+					   model.AvailableDates = new List<DateOnly>();
+				   }
+				   return View("EditEvent", model);
+			   }
 
-			ModelState.AddModelError("", "Could not update event. Please try again.");
-			// Repopuler tilgjengelige datoer hvis lagring feiler
-			model.AvailableDates = model.AvailableDates ?? new List<DateOnly>();
-			return View("EditEvent", model);
+			   // Sjekk at pasient er innlogget
+			   if (HttpContext.Session.GetInt32("PatientId") is not int editPatientId)
+			   {
+				   return RedirectToAction("Login", "Patient");
+			   }
+
+			   // Hent originalt event fra DB for å sammenligne felter og bruke EF-tracking
+			   var (originalEvent, _, getStatus) = await _eventService.UpdateEvent(id, editPatientId);
+			   if (getStatus != OperationStatus.Success || originalEvent == null)
+			   {
+				   return RedirectToAction("PatientEvents");
+			   }
+
+			   model.Event.PatientId = editPatientId;
+
+			   // Ekstra validering: Start < End hvis tid endres
+			   bool timeChanged =
+				   model.Event.Date != originalEvent.Date ||
+				   model.Event.Start != originalEvent.Start ||
+				   model.Event.End != originalEvent.End;
+			   if (timeChanged && model.Event.Start >= model.Event.End)
+			   {
+				   if (HttpContext.Session.GetInt32("PatientId") is int pidForStartEnd)
+				   {
+					   var (availability, availStatus) = await _eventService.AddEvent(pidForStartEnd);
+					   model.AvailableDates = availability?.Select(a => a.Date).ToList() ?? new List<DateOnly>();
+				   }
+				   else
+				   {
+					   model.AvailableDates = new List<DateOnly>();
+				   }
+				   ModelState.AddModelError("", "Starttid må være før sluttid.");
+				   return View("EditEvent", model);
+			   }
+
+			   var updateStatus = await _eventService.UpdateEventPartial(model.Event, originalEvent);
+			   if (updateStatus == OperationStatus.Success)
+			   {
+				   TempData["SuccessMessage"] = "Event updated successfully!";
+				   return RedirectToAction("PatientEvents");
+			   }
+
+			   ModelState.AddModelError("", timeChanged
+				   ? "Could not update event. Det finnes overlapp eller ugyldig tid."
+				   : "Could not update event. Please try again.");
+			   // Repopuler AvailableDates fra service også ved lagringsfeil
+			   if (HttpContext.Session.GetInt32("PatientId") is int pidForDates)
+			   {
+				   var (availability, availStatus) = await _eventService.AddEvent(pidForDates);
+				   model.AvailableDates = availability?.Select(a => a.Date).ToList() ?? new List<DateOnly>();
+			   }
+			   else
+			   {
+				   model.AvailableDates = new List<DateOnly>();
+			   }
+			   return View("EditEvent", model);
 		}
 	}
 }
