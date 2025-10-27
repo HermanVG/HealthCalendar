@@ -47,8 +47,14 @@
 								@for (int h = 8; h <= 16; h++)
 								{
 									var t = TimeOnly.FromTimeSpan(new TimeSpan(h,0,0));
-									var isSelected = Model.Event.Start == t ? "selected" : null;
-									<option value="@t" selected="@isSelected">@($"{h:00}:00")</option>
+									if (Model.Event.Start.Hour == t.Hour)
+									{
+										<option value="@t" selected>@($"{h:00}:00")</option>
+									}
+									else
+									{
+										<option value="@t">@($"{h:00}:00")</option>
+									}
 								}
 							</select>
 							<span asp-validation-for="Event.Start" class="text-danger"></span>
@@ -61,8 +67,14 @@
 								@for (int h = 9; h <= 17; h++)
 								{
 									var t = TimeOnly.FromTimeSpan(new TimeSpan(h,0,0));
-									var isSelected = Model.Event.End == t ? "selected" : null;
-									<option value="@t" selected="@isSelected">@($"{h:00}:00")</option>
+									if (Model.Event.End.Hour == t.Hour)
+									{
+										<option value="@t" selected>@($"{h:00}:00")</option>
+									}
+									else
+									{
+										<option value="@t">@($"{h:00}:00")</option>
+									}
 								}
 							</select>
 							<span asp-validation-for="Event.End" class="text-danger"></span>

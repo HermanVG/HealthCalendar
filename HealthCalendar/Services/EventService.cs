@@ -229,7 +229,10 @@ namespace HealthCalendar.Services
                 {
                     foreach (Event existingEvent in existingEvents)
                     {
-                        if (eventt.Start < existingEvent.End && existingEvent.Start < eventt.End ||
+                        // Skip the event itself when editing
+                        if (existingEvent.EventId == eventt.EventId)
+                            continue;
+                        if ((eventt.Start < existingEvent.End && existingEvent.Start < eventt.End) ||
                             eventt.Start == existingEvent.Start || eventt.End == existingEvent.End)
                         {
                             _logger.LogInformation($"[PatientService] Event {@eventt} is Not Acceptable (overlap detected).");
