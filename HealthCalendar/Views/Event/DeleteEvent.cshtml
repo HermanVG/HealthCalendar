@@ -1,0 +1,20 @@
+@model HealthCalendar.Models.Event
+@{
+    ViewData["Title"] = "Delete event";
+}
+
+<h2>Confirm deletion</h2>
+<p>Are you sure you want to delete this event?</p>
+
+<div class="mb-3">
+    <strong>Description:</strong> @Model.Description <br />
+    <strong>Location:</strong> @Model.Location <br />
+    <strong>Date:</strong> @Model.Date <br />
+    <strong>Start:</strong> @Model.Start <br />
+    <strong>End:</strong> @Model.End
+</div>
+
+<form asp-action="DeleteEventConfirmed" asp-route-id="@Model.EventId" method="post">
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a asp-action="PatientEvents" class="btn btn-secondary">Cancel</a>
+</form>

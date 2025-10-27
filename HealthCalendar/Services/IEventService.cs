@@ -14,6 +14,7 @@ namespace HealthCalendar.Services
         Task<(Event?, List<WorkerAvailability>?, OperationStatus)> UpdateEvent(int eventId, int workerId);
     Task<OperationStatus> UpdateEvent(Event eventt);
     Task<OperationStatus> UpdateEventPartial(Event updatedEvent, Event originalEvent);
-        Task<(List<Event>?, OperationStatus)> GetEventsForPatient(int patientId);
+    Task<(List<Event>?, OperationStatus)> GetEventsForPatient(int patientId);
+    Task<OperationStatus> DeleteEvent(int eventId);
     }
 }

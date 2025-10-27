@@ -256,5 +256,30 @@ namespace HealthCalendar.Services
         {
             return await _eventRepo.GetEvents(patientId);
         }
+
+        public async Task<OperationStatus> DeleteEvent(int eventId)
+        {
+            try
+            {
+                var (eventt, status) = await _eventRepo.GetEvent(eventId);
+                if (status != OperationStatus.Success || eventt == null)
+                {
+                    _logger.LogError($"[EventService] Event with ID {eventId} not found for deletion.");
+                    return OperationStatus.NotFound;
+                }
+                var deleteStatus = await _eventRepo.DeleteEvent(eventt);
+                if (deleteStatus == OperationStatus.Success)
+                {
+                    return OperationStatus.Success;
+                }
+                _logger.LogError($"[EventService] Failed to delete event with ID {eventId}.");
+                return OperationStatus.Error;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"[EventService] Exception in DeleteEvent: {e.Message}");
+                return OperationStatus.Error;
+            }
+        }
     }
 }

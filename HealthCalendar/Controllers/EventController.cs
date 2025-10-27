@@ -312,5 +312,59 @@ namespace HealthCalendar.Controllers
 			   }
 			   return View("EditEvent", model);
 		}
+
+		// GET: Event/DeleteEvent/{id}
+        [HttpGet]
+        public async Task<IActionResult> DeleteEvent(int id)
+        {
+            // Check that patient is logged in
+            if (HttpContext.Session.GetInt32("PatientId") is not int patientId)
+            {
+                return RedirectToAction("Login", "Patient");
+            }
+
+            // Fetch event for confirmation
+            var (events, status) = await _eventService.GetEventsForPatient(patientId);
+            var eventt = events?.FirstOrDefault(e => e.EventId == id);
+            if (status != OperationStatus.Success || eventt == null)
+            {
+                TempData["ErrorMessage"] = "Event not found or you do not have access.";
+                return RedirectToAction("PatientEvents");
+            }
+
+            return View("DeleteEvent", eventt);
+        }
+
+        // POST: Event/DeleteEvent/{id}
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteEventConfirmed(int id)
+        {
+            // Check that patient is logged in
+            if (HttpContext.Session.GetInt32("PatientId") is not int patientId)
+            {
+                return RedirectToAction("Login", "Patient");
+            }
+
+            // Check that the event belongs to the patient
+            var (events, status) = await _eventService.GetEventsForPatient(patientId);
+            var eventt = events?.FirstOrDefault(e => e.EventId == id);
+            if (status != OperationStatus.Success || eventt == null)
+            {
+                TempData["ErrorMessage"] = "Event not found or you do not have access.";
+                return RedirectToAction("PatientEvents");
+            }
+
+            var deleteStatus = await _eventService.DeleteEvent(id);
+            if (deleteStatus == OperationStatus.Success)
+            {
+                TempData["SuccessMessage"] = "Event deleted.";
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "Could not delete event.";
+            }
+            return RedirectToAction("PatientEvents");
+        }
 	}
 }
