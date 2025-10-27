@@ -20,8 +20,8 @@ public static class DatabaseInit
                 new Worker
                 {
                     WorkerId = 1,
-                    FirstName = "workername",
-                    LastName = "workerlastname",
+                    FirstName = "Lars",
+                    LastName = "Larsen",
                     Email = "a@a.com",
                     Password = "a",
                     Phone = 11111111,
@@ -53,8 +53,8 @@ public static class DatabaseInit
                 new Worker
                 {
                     WorkerId = 2,
-                    FirstName = "workername",
-                    LastName = "workerlastname",
+                    FirstName = "Per",
+                    LastName = "Persen",
                     Email = "b@a.com",
                     Password = "b",
                     Phone = 11111111,
@@ -81,8 +81,8 @@ public static class DatabaseInit
                 {
                     PatientId = 1,
                     WorkerId = 1,
-                    FirstName = "patientFirstName",
-                    LastName = "patientLastName",
+                    FirstName = "Knut",
+                    LastName = "Knutsen",
                     Email = "a@a.com",
                     Password = "a",
                     Phone = 11111111,
@@ -93,8 +93,8 @@ public static class DatabaseInit
                 {
                     PatientId = 2,
                     WorkerId = 2,
-                    FirstName = "patientFirstName",
-                    LastName = "patientLastName",
+                    FirstName = "Per",
+                    LastName = "Persen",
                     Email = "c@a.com",
                     Password = "c",
                     Phone = 11111111,
@@ -114,8 +114,8 @@ public static class DatabaseInit
                 {
                     EventId = 1,
                     PatientId = 1,
-                    Description = "description1",
-                    Location = "location1",
+                    Description = "Description of event",
+                    Location = "Oslo",
                     Date = new DateOnly(2025, 10, 26),
                     Start = new TimeOnly(9, 0),
                     End = new TimeOnly(10, 0)
@@ -124,8 +124,8 @@ public static class DatabaseInit
                 {
                     EventId = 2,
                     PatientId = 1,
-                    Description = "description2",
-                    Location = "location2",
+                    Description = "Description of event 2",
+                    Location = "Oslo",
                     Date = new DateOnly(2025, 10, 27),
                     Start = new TimeOnly(14, 30),
                     End = new TimeOnly(15, 30)
@@ -134,8 +134,8 @@ public static class DatabaseInit
                 { 
                     EventId = 3,
                     PatientId = 2,
-                    Description = "description2",
-                    Location = "location2",
+                    Description = "Description of event 3",
+                    Location = "Oslo",
                     Date = new DateOnly(2025, 10, 28),
                     Start = new TimeOnly(14, 30),
                     End = new TimeOnly(15, 30)
