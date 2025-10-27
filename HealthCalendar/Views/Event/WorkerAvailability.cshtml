@@ -1,22 +1,30 @@
 @model IEnumerable<WorkerAvailability>
 
+<!-- View for displaying and managing a worker's available dates. -->
+
 @{
     ViewData["Title"] = "Your Availability";
 }
 
 <div class="container py-5">
     <div class="row justify-content-center">
+    <!-- Center the card on the page -->
         <div class="col-md-8 col-lg-6">
+            <!-- Responsive card for the form and list -->
             <div class="card shadow-sm">
                 <div class="card-body">
+                    <!-- Card body with all content -->
                     <h2 class="card-title mb-4">Your available dates</h2>
+                    <!-- Heading for the section -->
                     
+                    <!-- List all available dates with a delete button for each -->
                     @if (Model != null && Model.Any())
                     {
                         foreach (var availability in Model)
                         {
                             <div class="d-flex justify-content-between align-items-center mb-2">
                                 <span>Date: @availability.Date.ToString("dd.MM.yyyy")</span>
+                                <!-- Delete button for this date -->
                                 <form asp-controller="Event" asp-action="DeleteAvailability" method="post" class="d-inline">
                                     <input type="hidden" name="availabilityId" value="@availability.AvailabilityId" />
                                     <button type="submit" class="btn btn-outline-danger btn-sm">Delete</button>
@@ -26,6 +34,7 @@
                     }
 
                     <div class="mt-4">
+                        <!-- Section to add a new available date -->
                         <div class="mt-4">
                             <h5>Add new date:</h5>
                             <form asp-controller="Event" asp-action="AddAvailability" method="post" class="input-group mb-3">
@@ -36,6 +45,7 @@
                     </div>
 
                     <div class="mt-4">
+                        <!-- Button to go back to the worker's events overview -->
                         <a asp-controller="Event" asp-action="WorkerEvents" class="btn btn-outline-secondary">Go back</a>
                     </div>
                 </div>
