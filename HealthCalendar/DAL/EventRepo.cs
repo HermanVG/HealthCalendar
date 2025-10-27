@@ -58,7 +58,7 @@ public class EventRepo : IEventRepo
         try
         {
             List<Event> eventsForDate = await _database.Events
-                .Where(ev => ev.PatientId == patientId && ev.Date.Equals(date))
+                .Where(ev => ev.Date.Equals(date))
                 .ToListAsync();
             return (eventsForDate, OperationStatus.Success);
         }
