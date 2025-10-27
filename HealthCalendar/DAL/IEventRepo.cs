@@ -8,7 +8,7 @@ public interface IEventRepo
 {
     Task<(Event?, OperationStatus)> GetEvent(int eventId);
     Task<(List<Event>?, OperationStatus)> GetEvents(int patientId);
-    Task<(List<Event>?, OperationStatus)> GetEventsForDate(int patientId, DateOnly date);
+    Task<(List<Event>?, OperationStatus)> GetEventsForDate(DateOnly date);
     Task<OperationStatus> AddEvent(Event eventt);
     Task<OperationStatus> UpdateEvent(Event eventt);
     Task<OperationStatus> DeleteEvent(Event eventt);

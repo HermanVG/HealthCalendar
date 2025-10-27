@@ -53,7 +53,7 @@ public class EventRepo : IEventRepo
         }
     }
 
-    public async Task<(List<Event>?, OperationStatus)> GetEventsForDate(int patientId, DateOnly date)
+    public async Task<(List<Event>?, OperationStatus)> GetEventsForDate(DateOnly date)
     {
         try
         {

@@ -223,13 +223,14 @@ namespace HealthCalendar.Services
                 DateOnly date = eventt.Date;
 
                 (List<Event>? existingEvents, OperationStatus operationStatus) =
-                    await _eventRepo.GetEventsForDate(patientId, date);
+                    await _eventRepo.GetEventsForDate(date);
 
                 if (operationStatus == OperationStatus.Success && existingEvents != null)
                 {
                     foreach (Event existingEvent in existingEvents)
                     {
-                        if (eventt.Start < existingEvent.End && existingEvent.Start < eventt.End)
+                        if (eventt.Start < existingEvent.End && existingEvent.Start < eventt.End ||
+                            eventt.Start == existingEvent.Start || eventt.End == existingEvent.End)
                         {
                             _logger.LogInformation($"[PatientService] Event {@eventt} is Not Acceptable (overlap detected).");
                             return OperationStatus.NotAcceptable;
