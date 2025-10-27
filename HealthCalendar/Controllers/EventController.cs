@@ -65,7 +65,7 @@ namespace HealthCalendar.Controllers
 				   return RedirectToAction("PatientEvents");
 			   }
 
-			   ModelState.AddModelError("", "Could not create event. Start time must be before end time, and there must be no overlap with existing events.");
+			   ModelState.AddModelError("", "Could not create event. There must be no overlap with existing events.");
 			   // Hent tilgjengelige datoer fra service også ved lagringsfeil
 			   if (HttpContext.Session.GetInt32("PatientId") is int patientIdForDates)
 			   {
