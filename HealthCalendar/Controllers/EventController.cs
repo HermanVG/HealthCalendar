@@ -158,12 +158,8 @@ namespace HealthCalendar.Controllers
 			// Get worker availability from repository
 			var (availability, status) = await _availabilityRepo.GetAvailability(workerId);
 
-			if (status == OperationStatus.Success)
-			{
-				// Convert WorkerAvailability objects to list of dates
-				var availableDates = availability.Select(a => a.Date).ToList();
-				return View(availableDates);
-			}
+			// If success, return availability list
+			if (status == OperationStatus.Success) return View(availability);
 
 			// If error occurred, return empty list
 			return View(new List<DateOnly>());
@@ -172,7 +168,7 @@ namespace HealthCalendar.Controllers
 		// GET: Event/DeleteAvailability
 		// TODO: Mangler logging / error handling på flere av funksjonene her
 		[HttpPost]
-		public async Task<IActionResult> DeleteAvailability(string date)
+		public async Task<IActionResult> DeleteAvailability(int availabilityId)
 		{
 			// Check if worker is logged in
 			if (HttpContext.Session.GetInt32("WorkerId") is not int workerId)
@@ -180,22 +176,38 @@ namespace HealthCalendar.Controllers
 				return RedirectToAction("Login", "Worker");
 			}
 
-			// Parse the date string to DateOnly
-			if (!DateOnly.TryParse(date, out DateOnly availabilityDate))
+			// Call repo to get singular availability
+			var (availability, status) = await _availabilityRepo.GetSignularAvailability(availabilityId);
+
+			// Call repo to delete availability
+			if (status == OperationStatus.Success && availability != null)
 			{
-				return RedirectToAction(nameof(WorkerAvailability));
+				await _availabilityRepo.DeleteAvailability(availability);
 			}
 
-			// Create WorkerAvailability object to delete
-			var availability = new Models.WorkerAvailability
+			return RedirectToAction(nameof(WorkerAvailability));
+		}
+
+		// GET: Event/AddAvailability
+		[HttpPost]
+		public async Task<IActionResult> AddAvailability(DateTime date)
+		{
+			// Check if worker is logged in
+			var workerId = HttpContext.Session.GetInt32("WorkerId");
+			if (!workerId.HasValue)
+			{
+				return RedirectToAction("Login", "Worker");
+			}
+
+			// Creates availability object with date
+			var availability = new WorkerAvailability
 			{
 				WorkerId = workerId,
 				Date = availabilityDate
 			};
 
-			// Call repo to delete availability
-			await _availabilityRepo.DeleteAvailability(availability);
-			return RedirectToAction(nameof(WorkerAvailability));
+			await _availabilityRepo.AddAvailability(availability);
+			return RedirectToAction("WorkerAvailability");
 		}
 
 		// GET: Event/EditEvent/{id}

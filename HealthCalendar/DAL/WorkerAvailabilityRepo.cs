@@ -65,7 +65,7 @@ public class WorkerAvailabilityRepo : IWorkerAvailabilityRepo
         }
     }
     
-    /*public async Task<(WorkerAvailability?, OperationStatus)> GetTimestampAvailability(int availabilityId)
+    public async Task<(WorkerAvailability?, OperationStatus)> GetSignularAvailability(int availabilityId)
     {
         try
         {
@@ -84,7 +84,7 @@ public class WorkerAvailabilityRepo : IWorkerAvailabilityRepo
                             $"when FindAsync() was called, error message: {e.Message}");
             return (null, OperationStatus.Error);
         }
-    }*/
+    }
 
         /*public async Task<(List<WorkerAvailability>?, OperationStatus)> GetDateAvailability(int workerId, DateOnly date)
     {
