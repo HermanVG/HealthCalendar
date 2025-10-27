@@ -138,11 +138,12 @@ namespace HealthCalendar.Controllers
 			{
 				return View(events);
 			}
-			
+
 			return View(new List<Event>());
 		}
 
 		// GET: Event/WorkerAvailability
+		// TODO: Availability functions will be moved to own controller for exam
 		public async Task<IActionResult> WorkerAvailability()
 		{
 			   // Sjekk at ansatt er innlogget
